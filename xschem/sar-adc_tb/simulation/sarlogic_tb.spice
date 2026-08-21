@@ -1,0 +1,54 @@
+** sch_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc_tb/sarlogic_tb.sch
+.lib /foss/pdks/sky130A/libs.tech/combined/sky130.lib.spice tt
+.include /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/spice/sky130_fd_sc_hd.spice
+
+**.subckt sarlogic_tb
+Vclks clks 0 PULSE(0 1.8 0 100p 100p 14.9n 100n)
+Vclkc valid 0 PULSE(0 1.8 15n 100p 100p 4.78n 10.625n)
+Vcomp_out data 0 PULSE(0 1.8 15n 100p 100p 10.625n 21.25n
+Vvdd dvdd 0 DC 1.8
+x1 dvdd 0 D7 D6 D5 D4 D3 D2 D1 D0 valid clks data sarlogic
+**** begin user architecture code
+
+
+.control
+ tran 10p 100ns
+ save all
+ remzerovec
+ write sarlogic_tb.raw
+.endc
+
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  sarlogic.sym # of pins=6
+** sym_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/sarlogic.sym
+** sch_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/sarlogic.sch
+.subckt sarlogic dvdd dvss D7 D6 D5 D4 D3 D2 D1 D0 valid clks comp_out
+*.ipin valid
+*.ipin clks
+*.ipin comp_out
+*.opin D7,D6,D5,D4,D3,D2,D1,D0
+*.iopin dvdd
+*.iopin dvss
+x1 valid dvdd net1 dvss dvss dvdd dvdd clk1 sky130_fd_sc_hd__dfrtp_1
+x2 valid clk1 net1 dvss dvss dvdd dvdd clk2 sky130_fd_sc_hd__dfrtp_1
+x3 valid clk2 net1 dvss dvss dvdd dvdd clk3 sky130_fd_sc_hd__dfrtp_1
+x4 valid clk3 net1 dvss dvss dvdd dvdd clk4 sky130_fd_sc_hd__dfrtp_1
+x5 valid clk4 net1 dvss dvss dvdd dvdd clk5 sky130_fd_sc_hd__dfrtp_1
+x6 valid clk5 net1 dvss dvss dvdd dvdd clk6 sky130_fd_sc_hd__dfrtp_1
+x7 valid clk6 net1 dvss dvss dvdd dvdd clk7 sky130_fd_sc_hd__dfrtp_1
+x8 valid clk7 net1 dvss dvss dvdd dvdd clk8 sky130_fd_sc_hd__dfrtp_1
+x17 clks dvss dvss dvdd dvdd net1 sky130_fd_sc_hd__inv_2
+x9 clk1 comp_out net1 dvss dvss dvdd dvdd D7 sky130_fd_sc_hd__dfstp_1
+x10 clk2 comp_out net1 dvss dvss dvdd dvdd D6 sky130_fd_sc_hd__dfstp_1
+x11 clk3 comp_out net1 dvss dvss dvdd dvdd D5 sky130_fd_sc_hd__dfstp_1
+x12 clk4 comp_out net1 dvss dvss dvdd dvdd D4 sky130_fd_sc_hd__dfstp_1
+x13 clk5 comp_out net1 dvss dvss dvdd dvdd D3 sky130_fd_sc_hd__dfstp_1
+x14 clk6 comp_out net1 dvss dvss dvdd dvdd D2 sky130_fd_sc_hd__dfstp_1
+x15 clk7 comp_out net1 dvss dvss dvdd dvdd D1 sky130_fd_sc_hd__dfstp_1
+x16 clk8 comp_out net1 dvss dvss dvdd dvdd D0 sky130_fd_sc_hd__dfstp_1
+.ends
+
+.end

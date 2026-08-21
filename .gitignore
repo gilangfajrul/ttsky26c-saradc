@@ -9,3 +9,25 @@ test/sim_build
 test/__pycache__/
 test/results.xml
 test/gate_level_netlist.v
+
+# Claude Code local settings
+.claude/settings.local.json
+.claude/*.tmp.*
+
+# Reference / scratch material -- never pushed
+ref/
+xschem/sar-adc_tb/ref/
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Simulation output -- regenerable, and the .raw dumps are hundreds of MB
+# (one is 115 MB, over GitHub's 100 MB per-file limit).
+*.raw
+*.log
+
+# Magic autosave and DRC report -- both regenerated on every run
+mag/backups/
+mag/sky130_drc.txt

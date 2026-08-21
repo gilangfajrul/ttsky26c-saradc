@@ -1,0 +1,70 @@
+** sch_path: /foss/pdks/ciel/sky130/versions/f6eeac7dad085ffcc829ccfd721f7b4ce39edcf7/sky130A/libs.tech/xschem/sky130_tests/montecarlo_mismatch_sim.sch
+**.subckt montecarlo_mismatch_sim
+Vprobe2 net1 VM 0
+VICM VCM GND dc 0.85 ac 0
+C1 net1 GND 5p
+V3 VDD GND 1.8
+x2 VDD VM VCM net1 GND ota1tb
+.save v(vm)
+.save v(vcm)
+**** begin user architecture code
+
+
+.options savecurrents
+.control
+ let runs=1000
+ let r=0
+ dowhile r < runs
+   reset
+   op
+   let vdiff = v(vm,vcm)
+   let run=r
+   remzerovec
+   write montecarlo_mismatch_sim.raw
+   set appendwrite
+   print v(vm,vcm)
+   let r = r + 1
+ end
+.endc
+
+
+.lib /foss/pdks/sky130A/libs.tech/combined/sky130.lib.spice tt_mm
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  sky130_tests/ota1tb.sym # of pins=5
+** sym_path: /foss/pdks/ciel/sky130/versions/f6eeac7dad085ffcc829ccfd721f7b4ce39edcf7/sky130A/libs.tech/xschem/sky130_tests/ota1tb.sym
+** sch_path: /foss/pdks/ciel/sky130/versions/f6eeac7dad085ffcc829ccfd721f7b4ce39edcf7/sky130A/libs.tech/xschem/sky130_tests/ota1tb.sch
+.subckt ota1tb VDD minus plus out gnd
+*.ipin minus
+*.ipin plus
+*.ipin VDD
+*.ipin gnd
+*.opin out
+XM6 net3 net3 gnd GND sky130_fd_pr__nfet_01v8 L=1.5 W=0.564 nf=1 ad=0.16356 as=0.16356 pd=1.708 ps=1.708 nrd=0.514184397163121
++ nrs=0.514184397163121 sa=0 sb=0 sd=0 mult=1
+XM8 out Vdiff gnd GND sky130_fd_pr__nfet_01v8 L=0.5 W=12 nf=1 ad=3.48 as=3.48 pd=24.58 ps=24.58 nrd=0.0241666666666667
++ nrs=0.0241666666666667 sa=0 sb=0 sd=0 mult=1
+XM1 net3 minus net1 VDD sky130_fd_pr__pfet_01v8_lvt L=1.5 W=2.644 nf=2 ad=0.38338 as=0.76676 pd=3.224 ps=6.448
++ nrd=0.109682299546142 nrs=0.109682299546142 sa=0 sb=0 sd=0 mult=5 m=5
+XM3 Vdiff net3 gnd GND sky130_fd_pr__nfet_01v8 L=1.5 W=0.564 nf=1 ad=0.16356 as=0.16356 pd=1.708 ps=1.708 nrd=0.514184397163121
++ nrs=0.514184397163121 sa=0 sb=0 sd=0 mult=1
+XM4 net1 net2 VDD VDD sky130_fd_pr__pfet_01v8 L=0.75 W=0.515 nf=1 ad=0.14935 as=0.14935 pd=1.61 ps=1.61 nrd=0.563106796116505
++ nrs=0.563106796116505 sa=0 sb=0 sd=0 mult=4 m=4
+XM2 Vdiff plus net1 VDD sky130_fd_pr__pfet_01v8_lvt L=1.5 W=2.644 nf=2 ad=0.38338 as=0.76676 pd=3.224 ps=6.448
++ nrd=0.109682299546142 nrs=0.109682299546142 sa=0 sb=0 sd=0 mult=5 m=5
+XR4 net4 Vdiff gnd sky130_fd_pr__res_xhigh_po_1p41 L=14.5 mult=1
+XC3 out net4 sky130_fd_pr__cap_mim_m3_1 W=1 L=25 MF=20 m=20
+XM7 net2 net2 VDD VDD sky130_fd_pr__pfet_01v8 L=0.75 W=0.515 nf=1 ad=0.14935 as=0.14935 pd=1.61 ps=1.61 nrd=0.563106796116505
++ nrs=0.563106796116505 sa=0 sb=0 sd=0 mult=4 m=4
+XM5 out net2 VDD VDD sky130_fd_pr__pfet_01v8 L=0.75 W=0.515 nf=1 ad=0.14935 as=0.14935 pd=1.61 ps=1.61 nrd=0.563106796116505
++ nrs=0.563106796116505 sa=0 sb=0 sd=0 mult=4 m=4
+XR8 net7 net2 gnd sky130_fd_pr__res_xhigh_po_1p41 L=11.75 mult=1
+XR5 net6 net7 gnd sky130_fd_pr__res_xhigh_po_1p41 L=11.75 mult=1
+XR6 net5 net6 gnd sky130_fd_pr__res_xhigh_po_1p41 L=11.75 mult=1
+XR9 gnd net5 gnd sky130_fd_pr__res_xhigh_po_1p41 L=11.75 mult=1
+.ends
+
+.GLOBAL VDD
+.GLOBAL GND
+.end

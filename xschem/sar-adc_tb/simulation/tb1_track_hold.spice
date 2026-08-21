@@ -1,0 +1,142 @@
+** sch_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc_tb/tb1_track_hold.sch
+.lib /foss/pdks/sky130A/libs.tech/combined/sky130.lib.spice tt
+.include /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/spice/sky130_fd_sc_hd.spice
+
+**.subckt tb1_track_hold
+xbootstrap clk clkb vin vout vsup 0 bootstrap
+Vstimulus clk 0 PULSE(0 1.8 100n 100p 100p 15n 100n)
+Vsupply vsup 0 1.8
+Vin vin 0 DC 0.1
+Cload vout 0 1.25p
+x2 clk 0 0 vsup vsup clkb sky130_fd_sc_hd__inv_2
+**** begin user architecture code
+
+
+.ic v(vout)=0
+.control
+ set filetype = ascii
+ set wr_vecnames
+
+ echo '' > tb1_track_hold.log
+ echo '=== TB1a  boost / settling / droop  vs  vin ======================' >> tb1_track_hold.log
+ echo 'boost_err  = 1.8 - max(vgate-vin)  selama track        [target < 50 mV]' >> tb1_track_hold.log
+ echo 'ripple     = variasi (vgate-vin) selama track          [target < 10 mV]' >> tb1_track_hold.log
+ echo 'vgate_hold = max vgate selama hold                     [target < 50 mV]' >> tb1_track_hold.log
+ echo 't_settle   = waktu vout capai 0.5 LSB dari step FS     [target < 15 ns]' >> tb1_track_hold.log
+ echo 'err_track  = vin - vout di ujung jendela track         [target < 3.5 mV]' >> tb1_track_hold.log
+ echo 'droop      = perubahan vout selama 84 ns hold          [target < 3.5 mV]' >> tb1_track_hold.log
+ echo '' >> tb1_track_hold.log
+
+ foreach vsweep 0.1 0.45 0.9 1.35 1.7
+  alter Vin dc = $vsweep
+  tran 20p 700n
+  setplot $curplot
+
+  **Boost Accuracy
+  let vboost = v(xbootstrap.vgate) - v(vin)
+  meas tran bmin MIN vboost FROM=502n TO=514n
+  meas tran bmax MAX vboost FROM=502n TO=514n
+  let berr    = (1.8 - bmax)*1e3
+  let bripple = (bmax - bmin)*1e3
+
+  **Vgate Hold
+  meas tran vgh MAX v(xbootstrap.vgate) FROM=560n TO=595n
+  let vgh_mv = vgh*1e3
+
+  ** Settling
+  let vtgt = $vsweep - 3.516e-3
+  meas tran tset WHEN v(vout)=$&vtgt RISE=1
+  let tset_ns = (tset - 100e-9)*1e9
+  meas tran vend FIND v(vout) AT=114.9n
+  let errtrack = ($vsweep - vend)*1e3
+
+  **Droop
+  meas tran vh0 FIND v(vout) AT=514.9n
+  meas tran vh1 FIND v(vout) AT=599n
+  let droop = (vh1 - vh0)*1e3
+
+  echo 'vin=$vsweep | boost_err=$&berr mV | ripple=$&bripple mV | vgate_hold=$&vgh_mv mV | t_settle=$&tset_ns ns | err_track=$&errtrack mV | droop=$&droop mV' >> tb1_track_hold.log
+ end
+
+
+ echo '' >> tb1_track_hold.log
+ echo '=== RELIABILITY (vin = 1.70 V, worst case, siklus 5) ===========' >> tb1_track_hold.log
+ echo 'Batas sky130 1.8V device: |V| <= 1.98 V' >> tb1_track_hold.log
+ echo '' >> tb1_track_hold.log
+ alter Vin dc = 1.70
+ tran 20p 700n
+
+ let sw_vgs   = v(xbootstrap.vgate) - v(vin)
+ let sw_vgd   = v(xbootstrap.vgate) - v(vout)
+ let chtop_v  = v(xbootstrap.ctop)  - v(vsup)
+ let drv1_vds = v(xbootstrap.vgate) - v(xbootstrap.vschtopdrv1)
+ let drv2_vds = v(xbootstrap.vschtopdrv1)
+ let distop_v = v(xbootstrap.vgdistop) - v(xbootstrap.ctop)
+ let cboot_v  = v(xbootstrap.ctop) - v(xbootstrap.cbot)
+
+ meas tran m1 MAX  v(xbootstrap.ctop)  FROM=500n TO=600n
+ meas tran m2 MAX  v(xbootstrap.vgate) FROM=500n TO=600n
+ meas tran m3 MAX  sw_vgs      FROM=500n TO=600n
+ meas tran m4 MIN  sw_vgs      FROM=500n TO=600n
+ meas tran m5 MAX  sw_vgd      FROM=500n TO=600n
+ meas tran m6 MAX  chtop_v     FROM=500n TO=600n
+ meas tran m7 MAX  drv1_vds    FROM=500n TO=600n
+ meas tran m8 MAX  drv2_vds    FROM=500n TO=600n
+ meas tran m9 MIN  distop_v    FROM=500n TO=600n
+ meas tran m10 MAX cboot_v     FROM=500n TO=600n
+
+ let m9p = -m9
+ echo '  v(ctop) max              = $&m1 V'					>> tb1_track_hold.log
+ echo '  v(vgate) max             = $&m2 V'					>> tb1_track_hold.log
+ echo '  Mswitch     Vgs max      = $&m3 V     (harus ~1.8 = boost penuh)'	>> tb1_track_hold.log
+ echo '  Mswitch     Vgs min      = $&m4 V     (saat hold, = -vin)'		>> tb1_track_hold.log
+ echo '  Mswitch     Vgd max      = $&m5 V'					>> tb1_track_hold.log
+ echo '  Mchtop      |Vds| max    = $&m6 V     (ctop-vdd)'			>> tb1_track_hold.log
+ echo '  Mchtopdrv1  Vds max      = $&m7 V     <-- titik stres tertinggi'	>> tb1_track_hold.log
+ echo '  Mchtopdrv2  Vds max      = $&m8 V'					>> tb1_track_hold.log
+ echo '  Mdistop     |Vgs| max    = $&m9p V'					>> tb1_track_hold.log
+ echo '  Cboot       V max        = $&m10 V'					>> tb1_track_hold.log
+ echo ''
+
+ write tb1_track_hold.raw
+
+.endc
+
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  bootstrap.sym # of pins=6
+** sym_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/bootstrap.sym
+** sch_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/bootstrap.sch
+.subckt bootstrap clk clkb vin vout vdd vss
+*.ipin clk
+*.ipin clkb
+*.ipin vin
+*.opin vout
+*.iopin vdd
+*.iopin vss
+XMswitch vin vgate vout vss sky130_fd_pr__nfet_01v8 L=0.15 W=2 nf=1 ad=0.58 as=0.58 pd=4.58 ps=4.58 nrd=0.145 nrs=0.145 sa=0 sb=0
++ sd=0 mult=1
+XMdisbot cbot vgate vin vss sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0
++ sd=0 mult=1
+XCboot ctop cbot sky130_fd_pr__cap_mim_m3_1 W=10 L=10 MF=1
+XMdistop vgate vgdistop ctop ctop sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0
++ sb=0 sd=0 mult=1
+XMchtop ctop vgate vdd ctop sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0
++ sd=0 mult=1
+XMdistopdrv vgdistop vgate cbot vss sky130_fd_pr__nfet_01v8 L=0.15 W=0.5 nf=1 ad=0.145 as=0.145 pd=1.58 ps=1.58 nrd=0.58 nrs=0.58
++ sa=0 sb=0 sd=0 mult=1
+XMchtopdrv2 vschtopdrv1 clkb vss vss sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29
++ sa=0 sb=0 sd=0 mult=1
+XMchbot cbot clkb vss vss sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
++ mult=1
+XM1 vgdistop clk vdd vdd sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
++ mult=1
+XM2 vgdistop clk cbot vss sky130_fd_pr__nfet_01v8 L=0.15 W=0.5 nf=1 ad=0.145 as=0.145 pd=1.58 ps=1.58 nrd=0.58 nrs=0.58 sa=0 sb=0
++ sd=0 mult=1
+XM3 vgate vdd vschtopdrv1 vss sky130_fd_pr__nfet_g5v0d10v5 L=0.5 W=3 nf=1 ad=0.87 as=0.87 pd=6.58 ps=6.58 nrd=0.0966666666666667
++ nrs=0.0966666666666667 sa=0 sb=0 sd=0 mult=1
+.ends
+
+.end

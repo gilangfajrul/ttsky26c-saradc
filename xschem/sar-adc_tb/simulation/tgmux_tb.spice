@@ -1,0 +1,70 @@
+** sch_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc_tb/tgmux_tb.sch
+**.subckt tgmux_tb
+V1 VP 0 1.8
+V2 VN 0 0
+C1 outa net3 305f
+V3 net2 0 PULSE(0.9 -0.9 0 10p 10p 5.83n 11.7n)
+E1 SB net1 net2 0 -1
+E2 S net1 net2 0 1
+V4 net1 0 0.9
+V5 VDD 0 0.9
+x1 outa outb VP VN S SB VDD 0 tgmuxdiff
+C2 net3 outb 305f
+x2 VP VN S SB out VDD 0 tgmux
+C3 0 out 9.5f
+**** begin user architecture code
+
+
+*.include ./tgmux_tb.save
+.control
+ tran 1p 100ns
+ save all
+ remzerovec
+ *plot S SB out
+ write tgmux_tb.raw
+.endc
+
+
+.lib /foss/pdks/sky130A/libs.tech/combined/sky130.lib.spice tt
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  tgmuxdiff.sym # of pins=8
+** sym_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/tgmuxdiff.sym
+** sch_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/tgmuxdiff.sch
+.subckt tgmuxdiff OUTA OUTB VP VN S SB VDD VSS
+*.iopin VDD
+*.iopin VSS
+*.iopin VP
+*.iopin VN
+*.iopin S
+*.iopin SB
+*.iopin OUTA
+*.iopin OUTB
+x1 VP VN S SB OUTB VDD VSS tgmux
+x2 VP VN SB S OUTA VDD VSS tgmux
+.ends
+
+
+* expanding   symbol:  tgmux.sym # of pins=7
+** sym_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/tgmux.sym
+** sch_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/tgmux.sch
+.subckt tgmux VP VN S SB OUT VDD VSS
+*.iopin VP
+*.iopin VN
+*.ipin S
+*.ipin SB
+*.opin OUT
+*.iopin VDD
+*.iopin VSS
+XM1 OUT SB VN VSS sky130_fd_pr__nfet_01v8 L=0.15 W=2.5 nf=1 ad=0.725 as=0.725 pd=5.58 ps=5.58 nrd=0.116 nrs=0.116 sa=0 sb=0 sd=0
++ mult=1
+XM2 OUT S VN VDD sky130_fd_pr__pfet_01v8 L=0.15 W=5 nf=1 ad=1.45 as=1.45 pd=10.58 ps=10.58 nrd=0.058 nrs=0.058 sa=0 sb=0 sd=0
++ mult=1
+XM3 OUT S VP VSS sky130_fd_pr__nfet_01v8 L=0.15 W=2.5 nf=1 ad=0.725 as=0.725 pd=5.58 ps=5.58 nrd=0.116 nrs=0.116 sa=0 sb=0 sd=0
++ mult=1
+XM4 OUT SB VP VDD sky130_fd_pr__pfet_01v8 L=0.15 W=5 nf=1 ad=1.45 as=1.45 pd=10.58 ps=10.58 nrd=0.058 nrs=0.058 sa=0 sb=0 sd=0
++ mult=1
+.ends
+
+.end

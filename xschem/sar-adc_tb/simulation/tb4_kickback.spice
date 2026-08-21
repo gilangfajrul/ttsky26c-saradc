@@ -1,0 +1,172 @@
+** sch_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc_tb/tb4_kickback.sch
+.lib /foss/pdks/sky130A/libs.tech/combined/sky130.lib.spice tt
+.include /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/spice/sky130_fd_sc_hd.spice
+
+**.subckt tb4_kickback
+x1 vdd vop clkc von vtopp vtopn 0 dvdd 0 rdy comparator
+x2 clks clksb vinn vtopn vdd 0 bootstrap
+x3 clks clksb vinp vtopp vdd 0 bootstrap
+C1 vtopn 0 1.25p
+C2 vtopp 0 1.25p
+Vclks clks 0 PULSE(0 {vdd_v} {ts} {trf} {trf} {tsamp} {ts})
+x4 clks 0 0 dvdd dvdd clksb sky130_fd_sc_hd__inv_2
+Vvinp vinp 0 DC 0.9
+Vvinn vinn 0 DC 0.9
+Vvdd vdd 0 DC 1.8
+Vdvdd dvdd 0 DC 1.8
+Vclkc clkc 0 PULSE(0 {vdd_v} {tcomp_d} {trf} {trf} {tcomp_w} {ts})
+**** begin user architecture code
+
+
+.param tcomp_d = 'ts + 20e-9'    $ strobe 5 ns setelah switch membuka
+.param tcomp_w = 25e-9
+.param vdd_v   = 1.8
+.param fs      = 10e6
+.param ts      = '1/fs'          $ 100 ns
+.param tsamp   = 15e-9           $ jendela track
+.param trf     = 100e-12         $ rise/fall clock (buffer riil, bukan 1 ps)
+
+
+
+
+.control
+  echo ''
+  echo '=== TB4  kickback comparator ===================================='
+  echo '1 LSB differential = 14.0625 mV.  Batas wajar: kickback'
+  echo 'differential < 0.25 LSB = 3.5 mV, dan yang lebih penting,'
+  echo 'VARIASI-nya terhadap kode input harus < 0.25 LSB (itu yang'
+  echo 'jadi INL; bagian yang konstan hanya jadi offset).'
+  echo ''
+
+  foreach vd 0.00703 0.0703 0.703 1.700
+    let vp = 0.9 + $vd/2
+    let vn = 0.9 - $vd/2
+    alter Vvinp dc = $&vp
+    alter Vvinn dc = $&vn
+
+    * ---- run A: comparator DIAM (referensi droop) -------------------
+    alter @vclkc[pulse] = [ 0 0 120n 100p 100p 25n 100n ]
+    tran 20p 400n
+    setplot $curplot
+    meas tran a0p FIND v(vtopp) AT=319.5n
+    meas tran a0n FIND v(vtopn) AT=319.5n
+    meas tran a1p FIND v(vtopp) AT=395n
+    meas tran a1n FIND v(vtopn) AT=395n
+    let ref_d  = (a1p - a1n) - (a0p - a0n)
+    let ref_cm = (a1p + a1n)/2 - (a0p + a0n)/2
+    * Tiap `tran` membuat PLOT BARU. Vektor dari run sebelumnya tidak
+    * terlihat dari plot baru, jadi nilainya harus dipindah ke shell
+    * variable dulu -- itu satu-satunya yang lintas-plot.
+    set refd = $&ref_d
+    set refcm = $&ref_cm
+
+    * ---- run B: comparator MEN-STROBE -------------------------------
+    alter @vclkc[pulse] = [ 0 1.8 120n 100p 100p 25n 100n ]
+    tran 20p 400n
+    setplot $curplot
+    meas tran b0p FIND v(vtopp) AT=319.5n
+    meas tran b0n FIND v(vtopn) AT=319.5n
+    meas tran b1p FIND v(vtopp) AT=395n
+    meas tran b1n FIND v(vtopn) AT=395n
+    meas tran bpk MIN v(vtopp) FROM=320n TO=330n
+    let act_d  = (b1p - b1n) - (b0p - b0n)
+    let act_cm = (b1p + b1n)/2 - (b0p + b0n)/2
+
+    * ---- kickback murni = selisih kedua run -------------------------
+    let kb_d    = (act_d - $refd)*1e3
+    let kb_cm   = (act_cm - $refcm)*1e3
+    let kb_lsb  = kb_d/14.0625
+    let kb_peak = (bpk - b0p)*1e3
+    let vin_lsb = $vd/0.0140625
+    meas tran vopf FIND v(vop) AT=140n
+
+    echo '  vin_diff=$vd V ($&vin_lsb LSB) | kick_diff=$&kb_d mV ($&kb_lsb LSB) | kick_cm=$&kb_cm mV | peak_dip=$&kb_peak mV | vop=$&vopf V'
+  end
+  echo ''
+
+  write tb4_kickback.raw v(vtopp) v(vtopn) v(clks) v(clkc) v(vop) v(von) v(rdy)
+.endc
+
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  comparator.sym # of pins=10
+** sym_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/comparator.sym
+** sch_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/comparator.sch
+.subckt comparator vdd vop clk von vip vin vss dvdd dvss rdy
+*.ipin clk
+*.ipin vip
+*.ipin vin
+*.iopin vdd
+*.iopin vss
+*.opin vop
+*.opin von
+*.iopin dvdd
+*.iopin dvss
+*.opin rdy
+XMinputp pcp vip net1 vss sky130_fd_pr__nfet_01v8 L=0.2 W=5 nf=1 ad=1.45 as=1.45 pd=10.58 ps=10.58 nrd=0.058 nrs=0.058 sa=0 sb=0
++ sd=0 mult=1
+XMinputn pcn vin net1 vss sky130_fd_pr__nfet_01v8 L=0.2 W=5 nf=1 ad=1.45 as=1.45 pd=10.58 ps=10.58 nrd=0.058 nrs=0.058 sa=0 sb=0
++ sd=0 mult=1
+XM1a comp_von comp_vop pcp vss sky130_fd_pr__nfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+XM1b comp_vop comp_von pcn vss sky130_fd_pr__nfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+XM2a comp_von comp_vop vdd vdd sky130_fd_pr__pfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+XM2b comp_vop comp_von vdd vdd sky130_fd_pr__pfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+XMtail net1 clk vss vss sky130_fd_pr__nfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+XMS3 comp_vop clk vdd vdd sky130_fd_pr__pfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+XMS2 comp_von clk vdd vdd sky130_fd_pr__pfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+XMS4 pcn clk vdd vdd sky130_fd_pr__pfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+XMS1 pcp clk vdd vdd sky130_fd_pr__pfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+xnandp comp_vop net3 dvss dvss dvdd dvdd net2 sky130_fd_sc_hd__nand2_1
+xnandn comp_von net2 dvss dvss dvdd dvdd net3 sky130_fd_sc_hd__nand2_1
+xbuffp net2 dvss dvss dvdd dvdd von sky130_fd_sc_hd__buf_4
+xbuffn net3 dvss dvss dvdd dvdd vop sky130_fd_sc_hd__buf_4
+xnandrdy comp_von comp_vop dvss dvss dvdd dvdd net4 sky130_fd_sc_hd__nand2_1
+xbuffrdy net4 dvss dvss dvdd dvdd rdy sky130_fd_sc_hd__buf_4
+.ends
+
+
+* expanding   symbol:  bootstrap.sym # of pins=6
+** sym_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/bootstrap.sym
+** sch_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/bootstrap.sch
+.subckt bootstrap clk clkb vin vout vdd vss
+*.ipin clk
+*.ipin clkb
+*.ipin vin
+*.opin vout
+*.iopin vdd
+*.iopin vss
+XMswitch vin vgate vout vss sky130_fd_pr__nfet_01v8 L=0.15 W=2 nf=1 ad=0.58 as=0.58 pd=4.58 ps=4.58 nrd=0.145 nrs=0.145 sa=0 sb=0
++ sd=0 mult=1
+XMdisbot cbot vgate vin vss sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0
++ sd=0 mult=1
+XCboot ctop cbot sky130_fd_pr__cap_mim_m3_1 W=10 L=10 MF=1
+XMdistop vgate vgdistop ctop ctop sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0
++ sb=0 sd=0 mult=1
+XMchtop ctop vgate vdd ctop sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0
++ sd=0 mult=1
+XMdistopdrv vgdistop vgate cbot vss sky130_fd_pr__nfet_01v8 L=0.15 W=0.5 nf=1 ad=0.145 as=0.145 pd=1.58 ps=1.58 nrd=0.58 nrs=0.58
++ sa=0 sb=0 sd=0 mult=1
+XMchtopdrv2 vschtopdrv1 clkb vss vss sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29
++ sa=0 sb=0 sd=0 mult=1
+XMchbot cbot clkb vss vss sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
++ mult=1
+XM1 vgdistop clk vdd vdd sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
++ mult=1
+XM2 vgdistop clk cbot vss sky130_fd_pr__nfet_01v8 L=0.15 W=0.5 nf=1 ad=0.145 as=0.145 pd=1.58 ps=1.58 nrd=0.58 nrs=0.58 sa=0 sb=0
++ sd=0 mult=1
+XXMchtopdrv1 vgate vdd vschtopdrv1 vss sky130_fd_pr__nfet_g5v0d10v5 L=0.5 W=3 nf=1 ad=0.87 as=0.87 pd=6.58 ps=6.58
++ nrd=0.0966666666666667 nrs=0.0966666666666667 sa=0 sb=0 sd=0 mult=1
+.ends
+
+.end

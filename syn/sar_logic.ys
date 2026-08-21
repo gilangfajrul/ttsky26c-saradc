@@ -1,0 +1,34 @@
+# ---------------------------------------------------------------------------
+# RTL -> sky130_fd_sc_hd gate netlist for the SAR control logic.
+#   yosys -c ... no: run with  yosys syn/sar_logic.ys  from the project root.
+# ---------------------------------------------------------------------------
+
+# Read the cells as black boxes FIRST, so `check` knows which pins are outputs.
+# Without this every Q/Y looks undriven and check floods you with false warnings.
+read_liberty -lib /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+read_verilog src/sar_logic.v
+hierarchy -check -top sar_top
+
+
+# generic RTL synthesis, but WITHOUT the built-in tech mapping of flops
+synth -top sar_top -flatten
+
+# map the $adff/$dff cells onto real sky130 sequential cells
+dfflibmap -liberty /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+# map whatever combinational logic is left
+abc -liberty /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+# tie cells for any constant 1/0 that survived, then clean up
+hilomap -hicell sky130_fd_sc_hd__conb_1 HI -locell sky130_fd_sc_hd__conb_1 LO
+splitnets -ports
+
+# drop hierarchy-debug cells and the dangling name aliases they keep alive
+delete t:$scopeinfo
+opt_clean -purge
+
+stat
+check
+write_verilog -noattr syn/sar_top_mapped.v
+write_json syn/sar_top_mapped.json

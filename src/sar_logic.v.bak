@@ -1,0 +1,217 @@
+/*
+ * SAR logic 8-bit, self-timed asinkron -- untuk tt_um_gilangfajrul_sar_adc.
+ *
+ * KENAPA ASINKRON
+ * Clock TT 10 MHz, t_conv = 85 ns. Delapan trial sinkron butuh clock
+ * internal ~94 MHz, yang tidak ada. Comparator sudah menyediakan `rdy`
+ * (xnandrdy + xbuffrdy di comparator.sch), jadi loop dipicu keputusan
+ * comparator itu sendiri. TB8 mengukur t_rdy = 0.32..0.68 ns dan jumlah
+ * 8 trial = 3.9 ns dari anggaran 85 ns -- margin 21x.
+ *
+ * SKEMA CDAC (hybrid, dari cdac.sch)
+ * 11 segmen per sisi, total 128 unit:
+ *
+ *   idx  nama  unit   jenis
+ *    0   b1      1    2-level  (VREF/VSS)
+ *    1   b2      2    2-level
+ *    2   b3      4    2-level
+ *    3   b4a     4  \
+ *    4   b4b     4  /  3-level: a,b bersama = VREF; a=1,b=0 = VCM; keduanya 0 = VSS
+ *    5   b5a     8  \
+ *    6   b5b     8  /
+ *    7   b6a    16  \
+ *    8   b6b    16  /
+ *    9   b7a    32  \
+ *   10   b7b    32  /
+ *   (+ Cdummy 1 unit tetap ke vss)
+ *
+ * Langkah differential yang dihasilkan:
+ *   3-level, KEDUA sisi bergerak berlawanan : VREF * n/128
+ *   2-level, HANYA SATU sisi bergerak       : VREF * n/128
+ *
+ *   b7 -> VREF/2   b6 -> /4   b5 -> /8   b4 -> /16
+ *   b3 -> /32      b2 -> /64  b1 -> /128
+ *
+ * JEBAKAN: kalau b1..b3 dibalik di KEDUA sisi, langkahnya jadi 2x lipat
+ * dan seluruh kode salah. Mereka wajib satu sisi saja per trial.
+ *
+ * Top-plate sampling -> comparison pertama gratis: 8 keputusan, 7
+ * langkah DAC.
+ */
+
+`default_nettype none
+
+module sar_logic #(
+    parameter N      = 8,    // resolusi
+    parameter NSEG   = 11    // segmen bottom-plate per sisi
+) (
+    input  wire            clk,      // clock TT, menentukan PERIODE SAMPLING saja
+    input  wire            rst_n,
+    input  wire            cmp,      // vop comparator: 1 = (ctop_p > ctop_n)
+    input  wire            rdy,      // naik saat keputusan selesai, turun saat precharge
+    input  wire            dac_rdy,  // pulsa dari delay element: DAC sudah settle
+
+    output wire            clks,     // kontrol switch bootstrap (track saat tinggi)
+    output reg             clkc,     // strobe comparator
+    output reg  [NSEG-1:0] sel_p,    // 1 = bottom plate ke VREF, 0 = ke VSS
+    output reg  [NSEG-1:0] sel_n,
+    output reg  [N-1:0]    dout,
+    output reg             dvalid
+);
+
+  // --- indeks segmen -------------------------------------------------
+  localparam B1  = 0,  B2  = 1,  B3  = 2;
+  localparam B4A = 3,  B4B = 4,  B5A = 5,  B5B = 6;
+  localparam B6A = 7,  B6B = 8,  B7A = 9,  B7B = 10;
+
+  // Keadaan sampling: semua segmen 3-level di VCM (a=1, b=0), semua
+  // segmen 2-level di VSS. Differential = 0 di kedua kasus.
+  localparam [NSEG-1:0] SEL_SAMPLE =
+      (1 << B7A) | (1 << B6A) | (1 << B5A) | (1 << B4A);
+
+  // --- fase sampling: langsung dari duty cycle clock TT ---------------
+  // clk tinggi = track, clk rendah = konversi. Tidak ada pencacah dan
+  // tidak ada penyeberangan domain -- fase ditentukan clock itu sendiri.
+  //
+  // Dengan clock 10 MHz duty 50 %: track 50 ns, konversi 50 ns. Kedua
+  // angka itu longgar terhadap yang terukur: t_settle 4.70 ns (TB1) dan
+  // jumlah 8 keputusan 3.92 ns (TB8). Pembagian 15/85 ns di TB1-TB8
+  // adalah pilihan perencanaan, bukan syarat -- 50/50 justru memberi
+  // margin lebih besar di kedua fase.
+  wire conv = ~clk;
+  assign clks = clk;
+
+  // --- pencacah trial, di-clock oleh keputusan comparator -------------
+  // `rdy` adalah clock loop self-timed. Inilah inti desain asinkron:
+  // laju konversi ditentukan comparator, bukan osilator.
+  //
+  // TEPI TURUN, BUKAN TEPI NAIK -- ini bukan selera (TB10, cacat C).
+  // `cmp` (= vop comparator) dan `rdy` sama-sama lahir dari pasangan
+  // nand2+buf_4 di comparator.sch, jadi di tepi NAIK rdy keduanya masih
+  // balapan: TB10 mengukur cmp datang 23..38 ps SESUDAH tepi rdy,
+  // sementara dfrtp_1 minta >= 107 ps SEBELUMNYA. Akibatnya tiap flop
+  // mendaftarkan keputusan trial SEBELUMNYA dan seluruh kode salah.
+  //
+  // Di tepi TURUN masalah itu hilang secara struktural, bukan dengan
+  // menyetel delay: pasangan nand silang (xnandp/xnandn) MENAHAN
+  // keputusan selama precharge, jadi `cmp` sudah diam sejak tepi naik
+  // dan baru berubah di keputusan berikutnya. Lebar pulsa rdy terukur
+  // 370..448 ns/1000 (TB10) -> `cmp` mapan ~340..420 ps sebelum tepi
+  // turun, yaitu 3..4x syarat setup. Ongkosnya nol: tidak ada sel
+  // tambahan dan tidak ada tambahan waktu per trial.
+  reg [3:0] trial;
+
+  always @(negedge rdy or negedge conv) begin
+    if (!conv) begin
+      trial <= 4'd0;
+    end else begin
+      trial <= trial + 4'd1;
+    end
+  end
+
+  // --- register hasil + update DAC ------------------------------------
+  // Keputusan trial k mengisi dout[N-1-k]; DAC digerakkan untuk trial
+  // BERIKUTNYA. Trial terakhir (k = N-1) tidak menggerakkan DAC.
+  // Kendali asinkron untuk sel_p/sel_n: reset chip ATAU fase track.
+  //
+  // KENAPA ASINKRON (TB10, cacat B). Sebelumnya reload SEL_SAMPLE ada di
+  // cabang `else` blok ini, jadi ia butuh TEPI `rdy` saat conv = 0.
+  // Tepi itu tidak pernah ada: selama track `clkc` rendah, comparator
+  // tidak pernah memutuskan, jadi `rdy` diam. Akibatnya DAC tidak pernah
+  // pulang ke keadaan sampling dan muatan yang di-sample ter-referensi
+  // ke bottom plate KODE SEBELUMNYA -- tiap konversi mewarisi error
+  // konversi sebelumnya.
+  //
+  // Digabung jadi SATU sinyal, bukan dua kondisi asinkron terpisah,
+  // supaya tiap bit tetap memetakan ke satu flop dfrtp/dfstp biasa.
+  // SEL_SAMPLE konstan, jadi bit yang bernilai 1 jadi async-SET dan
+  // sisanya async-RESET -- persis yang disediakan library.
+  wire aclr_n = rst_n & conv;
+
+  always @(negedge rdy or negedge rst_n) begin
+    // Geser, jangan indeks variabel. `dout[N-1-trial] <= cmp` bekerja
+    // tapi mensintesis barrel shifter ($shift/$sub/$neg di yosys);
+    // karena trial berjalan MSB->LSB berurutan, geser-kiri menaruh
+    // tiap keputusan di tempat yang benar dengan flop saja.
+    if (!rst_n)    dout <= {N{1'b0}};
+    else if (conv) dout <= {dout[N-2:0], cmp};
+  end
+
+  always @(negedge rdy or negedge aclr_n) begin
+    if (!aclr_n) begin
+      sel_p <= SEL_SAMPLE;
+      sel_n <= SEL_SAMPLE;
+    end else begin
+      // cmp = 1 berarti sisi p terlalu tinggi -> turunkan p, naikkan n.
+      case (trial)
+        // ---- segmen 3-level: MID -> HIGH atau LOW, dua sisi lawan ----
+        4'd0: begin  // -> b7 (64 unit), langkah VREF/2
+          sel_p[B7A] <= ~cmp; sel_p[B7B] <= ~cmp;
+          sel_n[B7A] <=  cmp; sel_n[B7B] <=  cmp;
+        end
+        4'd1: begin  // -> b6 (32 unit), VREF/4
+          sel_p[B6A] <= ~cmp; sel_p[B6B] <= ~cmp;
+          sel_n[B6A] <=  cmp; sel_n[B6B] <=  cmp;
+        end
+        4'd2: begin  // -> b5 (16 unit), VREF/8
+          sel_p[B5A] <= ~cmp; sel_p[B5B] <= ~cmp;
+          sel_n[B5A] <=  cmp; sel_n[B5B] <=  cmp;
+        end
+        4'd3: begin  // -> b4 (8 unit), VREF/16
+          sel_p[B4A] <= ~cmp; sel_p[B4B] <= ~cmp;
+          sel_n[B4A] <=  cmp; sel_n[B4B] <=  cmp;
+        end
+        // ---- segmen 2-level: SATU sisi saja, kalau tidak langkah 2x --
+        4'd4: begin  // -> b3 (4 unit), VREF/32
+          if (cmp) sel_n[B3] <= 1'b1; else sel_p[B3] <= 1'b1;
+        end
+        4'd5: begin  // -> b2 (2 unit), VREF/64
+          if (cmp) sel_n[B2] <= 1'b1; else sel_p[B2] <= 1'b1;
+        end
+        4'd6: begin  // -> b1 (1 unit), VREF/128
+          if (cmp) sel_n[B1] <= 1'b1; else sel_p[B1] <= 1'b1;
+        end
+        default: ;   // trial 7: keputusan terakhir, DAC diam
+      endcase
+    end
+  end
+
+  // --- hasil siap ------------------------------------------------------
+  // Semua N keputusan sudah masuk. Di-latch di tepi naik clk (awal fase
+  // track berikutnya), jadi dout stabil sepanjang periode sampling.
+  wire conv_done = (trial == N[3:0]);
+
+  always @(posedge clk or negedge rst_n)
+    if (!rst_n) dvalid <= 1'b0;
+    else        dvalid <= conv_done;
+
+  // --- strobe comparator: loop self-timed ------------------------------
+  // Urutannya: clkc naik -> comparator memutuskan -> rdy naik -> clkc
+  // turun (comparator precharge, rdy turun) -> DAC settle -> dac_rdy
+  // -> clkc naik lagi.
+  //
+  // `dac_rdy` HARUS berasal dari delay element fisik (rantai buffer),
+  // bukan dari logika kombinasional murni -- yang ditunggu adalah
+  // settling analog CDAC, dan tidak ada sinyal digital yang tahu kapan
+  // itu selesai. Panjang rantai dikarakterisasi setelah testbench CDAC
+  // ada. Sampai saat itu, ini satu-satunya angka di blok ini yang
+  // belum punya dasar terukur.
+  // `conv_done` WAJIB ada di sini (TB10, cacat A). Tanpa dia tidak ada
+  // apa pun yang menghentikan loop sesudah keputusan ke-N: ia terus
+  // berputar sampai fase track tiba. TB10 mengukur 16 trial per
+  // konversi, dengan keputusan terakhir di 49.5 ns dari 50 ns -- persis
+  // "sampai waktunya habis". Dua akibatnya fatal:
+  //   1. keputusan ke-9 dst. ikut menggeser dout, jadi hasil akhir
+  //      cuma salinan bit terakhir (kode 0 atau 255);
+  //   2. `trial` berakhir di 16, jadi conv_done tidak pernah benar dan
+  //      `dvalid` mati selamanya.
+  always @(*) begin
+    if (!conv)                       clkc = 1'b0;
+    else if (rdy)                    clkc = 1'b0;  // keputusan selesai
+    else if (dac_rdy && !conv_done)  clkc = 1'b1;  // DAC siap, tembak
+    else                             clkc = 1'b0;
+  end
+
+endmodule
+
+`default_nettype wire

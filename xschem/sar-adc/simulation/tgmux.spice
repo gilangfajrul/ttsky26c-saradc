@@ -1,0 +1,19 @@
+** sch_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/tgmux.sch
+**.subckt tgmux VP VN S OUT VDD VSS
+*.iopin VP
+*.iopin VN
+*.ipin S
+*.opin OUT
+*.iopin VDD
+*.iopin VSS
+XM1 OUT SB VN VSS sky130_fd_pr__nfet_01v8 L=0.15 W=2.5 nf=1 ad=0.725 as=0.725 pd=5.58 ps=5.58 nrd=0.116 nrs=0.116 sa=0 sb=0 sd=0
++ mult=1
+XM2 OUT S VN VDD sky130_fd_pr__pfet_01v8 L=0.15 W=5 nf=1 ad=1.45 as=1.45 pd=10.58 ps=10.58 nrd=0.058 nrs=0.058 sa=0 sb=0 sd=0
++ mult=1
+XM3 OUT S VP VSS sky130_fd_pr__nfet_01v8 L=0.15 W=2.5 nf=1 ad=0.725 as=0.725 pd=5.58 ps=5.58 nrd=0.116 nrs=0.116 sa=0 sb=0 sd=0
++ mult=1
+XM4 OUT SB VP VDD sky130_fd_pr__pfet_01v8 L=0.15 W=5 nf=1 ad=1.45 as=1.45 pd=10.58 ps=10.58 nrd=0.058 nrs=0.058 sa=0 sb=0 sd=0
++ mult=1
+x1 S VGND VNB VPB VPWR SB sky130_fd_sc_hd__inv_4
+**.ends
+.end

@@ -5,10 +5,11 @@
 
 `default_nettype none
 
-module tt_um_example (
-    input  wire       VGND,
-    input  wire       VDPWR,    // 1.8v power supply
-//    input  wire       VAPWR,    // 3.3v power supply
+module tt_um_gilangfajrul_sar_adc (
+    input  wire       VDGND,
+    input  wire       VDPWR,    // 1.8v digital power supply
+    input  wire       VAGND,
+    input  wire       VAPWR,    // 1.8v analog power supply
     input  wire [7:0] ui_in,    // Dedicated inputs
     output wire [7:0] uo_out,   // Dedicated outputs
     input  wire [7:0] uio_in,   // IOs: Input path

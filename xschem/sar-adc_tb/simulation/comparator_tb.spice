@@ -1,0 +1,85 @@
+** sch_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc_tb/comparator_tb.sch
+.lib /foss/pdks/sky130A/libs.tech/combined/sky130.lib.spice tt
+.include /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/spice/sky130_fd_sc_hd.spice
+
+**.subckt comparator_tb
+Xcomparator avdd vop clkc von vip vin 0 dvdd 0 rdy comparator
+Vavdd avdd 0 1.8
+Vcm net2 0 0.9
+Vdvdd dvdd 0 1.8
+Evin vin net2 net1 0 -1
+Evip vip net2 net1 0 1
+Vdiff net1 0 PULSE(-0.75 0.75 0 21.74n 21.74n 1p 43.47n)
+Vclk clks 0 PULSE(0 1.8 100n 100p 100p 14.9n 84.9n)
+x1 clks delay10 0 0 dvdd dvdd clkc sky130_fd_sc_hd__nor2_2
+x2 rdy 0 0 dvdd dvdd delay1 sky130_fd_sc_hd__dlygate4sd3_1
+x3 delay1 0 0 dvdd dvdd delay2 sky130_fd_sc_hd__dlygate4sd3_1
+x4 delay2 0 0 dvdd dvdd delay3 sky130_fd_sc_hd__dlygate4sd3_1
+x5 delay3 0 0 dvdd dvdd delay4 sky130_fd_sc_hd__dlygate4sd3_1
+x6 delay4 0 0 dvdd dvdd delay5 sky130_fd_sc_hd__dlygate4sd3_1
+x7 delay5 0 0 dvdd dvdd delay6 sky130_fd_sc_hd__dlygate4sd3_1
+x8 delay6 0 0 dvdd dvdd delay7 sky130_fd_sc_hd__dlygate4sd3_1
+x9 delay7 0 0 dvdd dvdd delay8 sky130_fd_sc_hd__dlygate4sd3_1
+x10 delay8 0 0 dvdd dvdd delay9 sky130_fd_sc_hd__dlygate4sd3_1
+x11 delay9 0 0 dvdd dvdd delay10 sky130_fd_sc_hd__dlygate4sd3_1
+**** begin user architecture code
+
+
+
+.include ./comparator_tb.save
+.control
+ save all
+ remzerovec
+ tran 10p 250n
+ write comparator_tb.raw
+.endc
+
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  comparator.sym # of pins=10
+** sym_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/comparator.sym
+** sch_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/comparator.sch
+.subckt comparator vdd vop clk von vip vin vss dvdd dvss rdy
+*.ipin clk
+*.ipin vip
+*.ipin vin
+*.iopin vdd
+*.iopin vss
+*.opin vop
+*.opin von
+*.iopin dvdd
+*.iopin dvss
+*.opin rdy
+XMinputp pcp vip net1 vss sky130_fd_pr__nfet_01v8 L=0.2 W=5 nf=1 ad=1.45 as=1.45 pd=10.58 ps=10.58 nrd=0.058 nrs=0.058 sa=0 sb=0
++ sd=0 mult=1
+XMinputn pcn vin net1 vss sky130_fd_pr__nfet_01v8 L=0.2 W=5 nf=1 ad=1.45 as=1.45 pd=10.58 ps=10.58 nrd=0.058 nrs=0.058 sa=0 sb=0
++ sd=0 mult=1
+XM1a comp_von comp_vop pcp vss sky130_fd_pr__nfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+XM1b comp_vop comp_von pcn vss sky130_fd_pr__nfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+XM2a comp_von comp_vop vdd vdd sky130_fd_pr__pfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+XM2b comp_vop comp_von vdd vdd sky130_fd_pr__pfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+XMtail net1 clk vss vss sky130_fd_pr__nfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+XMS3 comp_vop clk vdd vdd sky130_fd_pr__pfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+XMS2 comp_von clk vdd vdd sky130_fd_pr__pfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+XMS4 pcn clk vdd vdd sky130_fd_pr__pfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+XMS1 pcp clk vdd vdd sky130_fd_pr__pfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+xnandp comp_vop net3 dvss dvss dvdd dvdd net2 sky130_fd_sc_hd__nand2_1
+xnandn comp_von net2 dvss dvss dvdd dvdd net3 sky130_fd_sc_hd__nand2_1
+xbuffp net2 dvss dvss dvdd dvdd von sky130_fd_sc_hd__buf_4
+xbuffn net3 dvss dvss dvdd dvdd vop sky130_fd_sc_hd__buf_4
+xnandrdy comp_von comp_vop dvss dvss dvdd dvdd net4 sky130_fd_sc_hd__nand2_1
+xbuffrdy net4 dvss dvss dvdd dvdd rdy sky130_fd_sc_hd__buf_4
+.ends
+
+.end

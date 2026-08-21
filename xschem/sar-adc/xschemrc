@@ -1,0 +1,2 @@
+# All configuration lives in the shared ../xschemrc
+source [file dirname [file dirname [file normalize [info script]]]]/xschemrc

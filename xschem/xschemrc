@@ -1,0 +1,43 @@
+# Shared xschem configuration for ttsky26c-saradc.
+#
+# xschem reads ./xschemrc from the directory it is launched in, so each
+# schematic directory carries a small xschemrc that sources this file.
+
+###########################################################################
+#### PDK
+###########################################################################
+#### The container exports PDK=ihp-sg13g2, but this design uses sky130
+#### devices (sky130_fd_pr) and standard cells (sky130_fd_sc_hd), so pin the
+#### variant here rather than inheriting whatever the shell has set.
+#### sky130A's own xschemrc reads env(PDK) and env(PDK_ROOT).
+if { ![info exists env(PDK_ROOT)] || $env(PDK_ROOT) eq {} } {
+  set env(PDK_ROOT) /foss/pdks
+}
+set env(PDK) sky130A
+
+source $env(PDK_ROOT)/$env(PDK)/libs.tech/xschem/xschemrc
+
+###########################################################################
+#### DESIGN SYMBOL LIBRARIES
+###########################################################################
+#### sky130A's xschemrc rebuilds XSCHEM_LIBRARY_PATH from scratch, so the
+#### project directories have to be appended after sourcing it. Without
+#### sar-adc/ here the testbench cannot resolve comparator.sym.
+set PROJECT_XSCHEM_DIR [file dirname [file normalize [info script]]]
+append XSCHEM_LIBRARY_PATH :$PROJECT_XSCHEM_DIR/sar-adc
+append XSCHEM_LIBRARY_PATH :$PROJECT_XSCHEM_DIR/sar-adc_tb
+
+###########################################################################
+#### tcleval() IN SYMBOL FORMAT STRINGS
+###########################################################################
+#### Must be the string yes/no/ask. Any other value (1, true, ...) falls
+#### through the tests in xschem.tcl and every tcleval() netlists as '?',
+#### which silently drops the corner .lib line and the .control block.
+set xschem_execute_scripts yes
+
+###########################################################################
+#### NETLIST / SIMULATION OUTPUT
+###########################################################################
+#### 1 => <schematic dir>/simulation/, which is where the existing
+#### sar-adc_tb/simulation/ netlist and .save file already live.
+set local_netlist_dir 1
