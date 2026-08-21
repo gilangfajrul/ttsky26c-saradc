@@ -9,11 +9,11 @@ You can also include images in this folder and reference them in the markdown. E
 
 ## How it works
 
-Explain how your project works
+8 Bit SAR-ADC
 
 ## How to test
 
-Explain how to use your project
+Analog will input convert to digital 8 bit
 
 ## External hardware
 
