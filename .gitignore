@@ -31,3 +31,16 @@ __pycache__/
 # Magic autosave and DRC report -- both regenerated on every run
 mag/backups/
 mag/sky130_drc.txt
+
+# Hasil karakterisasi otomatis (Claude) - jangan di-commit
+charac/
+
+docs/noise
+
+flow
+
+sizing
+
+syn
+
+

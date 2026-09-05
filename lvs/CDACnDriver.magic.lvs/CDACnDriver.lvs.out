@@ -1,0 +1,89 @@
+
+Circuit 1 cell sky130_fd_pr__pfet_01v8_hvt and Circuit 2 cell sky130_fd_pr__pfet_01v8_hvt are black boxes.
+Warning: Equate pins:  cell sky130_fd_pr__pfet_01v8_hvt is a placeholder, treated as a black box.
+Warning: Equate pins:  cell sky130_fd_pr__pfet_01v8_hvt is a placeholder, treated as a black box.
+
+Subcircuit pins:
+Circuit 1: sky130_fd_pr__pfet_01v8_hvt     |Circuit 2: sky130_fd_pr__pfet_01v8_hvt     
+-------------------------------------------|-------------------------------------------
+1                                          |1                                          
+2                                          |2                                          
+3                                          |3                                          
+4                                          |4                                          
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sky130_fd_pr__pfet_01v8_hvt and sky130_fd_pr__pfet_01v8_hvt are equivalent.
+
+Circuit 1 cell sky130_fd_pr__nfet_01v8 and Circuit 2 cell sky130_fd_pr__nfet_01v8 are black boxes.
+Warning: Equate pins:  cell sky130_fd_pr__nfet_01v8 is a placeholder, treated as a black box.
+Warning: Equate pins:  cell sky130_fd_pr__nfet_01v8 is a placeholder, treated as a black box.
+
+Subcircuit pins:
+Circuit 1: sky130_fd_pr__nfet_01v8         |Circuit 2: sky130_fd_pr__nfet_01v8         
+-------------------------------------------|-------------------------------------------
+1                                          |1                                          
+2                                          |2                                          
+3                                          |3                                          
+4                                          |4                                          
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sky130_fd_pr__nfet_01v8 and sky130_fd_pr__nfet_01v8 are equivalent.
+
+Circuit 1 cell sky130_fd_pr__cap_mim_m3_1 and Circuit 2 cell sky130_fd_pr__cap_mim_m3_1 are black boxes.
+Warning: Equate pins:  cell sky130_fd_pr__cap_mim_m3_1 is a placeholder, treated as a black box.
+Warning: Equate pins:  cell sky130_fd_pr__cap_mim_m3_1 is a placeholder, treated as a black box.
+
+Subcircuit pins:
+Circuit 1: sky130_fd_pr__cap_mim_m3_1      |Circuit 2: sky130_fd_pr__cap_mim_m3_1      
+-------------------------------------------|-------------------------------------------
+1                                          |1                                          
+2                                          |2                                          
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sky130_fd_pr__cap_mim_m3_1 and sky130_fd_pr__cap_mim_m3_1 are equivalent.
+Flattening unmatched subcell cdac in circuit CDACnDriver (1)(1 instance)
+Flattening unmatched subcell A_CDAC in circuit CDACnDriver (1)(4 instances)
+Flattening unmatched subcell sky130_fd_sc_hd__and2b_4 in circuit CDACnDriver (1)(4 instances)
+Flattening unmatched subcell B_CDAC in circuit CDACnDriver (1)(7 instances)
+Flattening unmatched subcell sky130_fd_sc_hd__nand2_4 in circuit CDACnDriver (1)(7 instances)
+
+Class CDACnDriver (0):  Merged 291 parallel devices.
+Class CDACnDriver (1):  Merged 108 parallel devices.
+Subcircuit summary:
+Circuit 1: CDACnDriver                     |Circuit 2: CDACnDriver                     
+-------------------------------------------|-------------------------------------------
+sky130_fd_pr__pfet_01v8_hvt (84->30)       |sky130_fd_pr__pfet_01v8_hvt (84->30)       
+sky130_fd_pr__cap_mim_m3_1 (196->13)       |sky130_fd_pr__cap_mim_m3_1 (196->13)       
+sky130_fd_pr__nfet_01v8 (84->30)           |sky130_fd_pr__nfet_01v8 (84->30)           
+Number of devices: 73                      |Number of devices: 73                      
+Number of nets: 47                         |Number of nets: 47                         
+---------------------------------------------------------------------------------------
+Resolving symmetries by property value.
+Netlists match uniquely.
+
+Subcircuit pins:
+Circuit 1: CDACnDriver                     |Circuit 2: CDACnDriver                     
+-------------------------------------------|-------------------------------------------
+vss                                        |vss                                        
+ctop                                       |ctop                                       
+clk7                                       |clk7                                       
+clk6                                       |clk6                                       
+clk5                                       |clk5                                       
+D1                                         |D1                                         
+D2                                         |D2                                         
+D3                                         |D3                                         
+clk1                                       |clk1                                       
+clk2                                       |clk2                                       
+clk3                                       |clk3                                       
+clk4                                       |clk4                                       
+D7                                         |D7                                         
+D6                                         |D6                                         
+D5                                         |D5                                         
+D4                                         |D4                                         
+vdd                                        |vdd                                        
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes CDACnDriver and CDACnDriver are equivalent.
+
+Final result: Circuits match uniquely.
+.

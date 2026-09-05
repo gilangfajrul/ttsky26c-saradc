@@ -1,0 +1,15 @@
+** sch_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/delay_control.sch
+**.subckt delay_control vdd vss valid valid_delayed
+*.ipin valid
+*.iopin vdd
+*.iopin vss
+*.opin valid_delayed
+x20 valid vss vss vdd vdd delay1 sky130_fd_sc_hd__clkdlybuf4s50_1
+x21 delay1 vss vss vdd vdd delay2 sky130_fd_sc_hd__clkdlybuf4s50_1
+x22 delay2 vss vss vdd vdd delay3 sky130_fd_sc_hd__clkdlybuf4s50_1
+x23 delay3 vss vss vdd vdd delay4 sky130_fd_sc_hd__clkdlybuf4s50_1
+x24 delay4 vss vss vdd vdd delay5 sky130_fd_sc_hd__clkdlybuf4s50_1
+x25 delay5 vss vss vdd vdd delay6 sky130_fd_sc_hd__clkdlybuf4s50_1
+x26 delay6 vss vss vdd vdd valid_delayed sky130_fd_sc_hd__clkdlybuf4s50_1
+**.ends
+.end

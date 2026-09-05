@@ -1,0 +1,48 @@
+magic
+tech sky130A
+magscale 1 2
+timestamp 1788351846
+<< nwell >>
+rect -774 582 774 623
+rect -760 517 760 582
+<< pwell >>
+rect -726 26 -706 47
+<< psubdiff >>
+rect -731 -43 -707 -9
+rect 707 -43 731 -9
+<< nsubdiff >>
+rect -724 553 -664 587
+rect 664 553 724 587
+<< psubdiffcont >>
+rect -707 -43 707 -9
+<< nsubdiffcont >>
+rect -664 553 664 587
+<< locali >>
+rect -724 553 -664 587
+rect 664 553 724 587
+rect -712 226 -692 247
+rect -47 215 27 258
+rect 689 224 709 245
+rect -723 -43 -707 -9
+rect 707 -43 723 -9
+<< metal1 >>
+rect -714 527 -694 548
+rect -726 26 -706 47
+use sky130_fd_sc_hd__clkdlybuf4s50_1  sky130_fd_sc_hd__clkdlybuf4s50_1_0 $PDKPATH/libs.ref/sky130_fd_sc_hd/mag
+timestamp 1785844050
+transform 1 0 0 0 1 0
+box -38 -48 774 592
+use sky130_fd_sc_hd__clkdlybuf4s50_1  sky130_fd_sc_hd__clkdlybuf4s50_1_1
+timestamp 1785844050
+transform 1 0 -736 0 1 0
+box -38 -48 774 592
+<< labels >>
+flabel metal1 -726 26 -706 47 0 FreeSans 160 0 0 0 vss
+port 1 nsew
+flabel metal1 -714 527 -694 548 0 FreeSans 160 0 0 0 vdd
+port 0 nsew
+flabel locali -712 226 -692 247 0 FreeSans 160 0 0 0 clk8
+port 2 nsew
+flabel locali 689 224 709 245 0 FreeSans 160 0 0 0 EOC
+port 3 nsew
+<< end >>

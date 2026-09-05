@@ -1,3 +1,10 @@
+# !!! DO NOT SOURCE THIS AGAIN !!!
+# This is a ONE-SHOT bootstrap.  "def read" + "cellname rename" below rebuild
+# tt_um_gilangfajrul_sar_adc from the empty DEF template -- sourcing it a second
+# time throws away every instance, wire and via in the current layout.
+# To change a power-stripe label, edit the flabel/port lines in
+# mag/tt_um_gilangfajrul_sar_adc.mag instead, then re-run gds/lef write.
+#
 # SPDX-License-Identifier: Apache-2.0
 # Copyright (c) 2024 Tiny Tapeout LTD
 # Author: Uri Shaked
@@ -15,9 +22,7 @@ set POWER_STRIPE_WIDTH 2um                 ;# The minimum width is 1.2um
 # Power stripes: NET name, x position. You can add additional power stripes for each net, as needed.
 set POWER_STRIPES {
     VDPWR  1um
-    VDGND  4um
-    VAPWR  7um
-    VAGND  10um
+    VGND  4um
 }
 # If you use the 3v3 template, uncomment the line below:
 #lappend POWER_STRIPES VAPWR 7um
@@ -50,7 +55,7 @@ foreach {name x} $POWER_STRIPES {
 # Save the layout and export GDS/LEF
 # ----------------------------------
 save ${TOP_LEVEL_CELL}.mag
-file mkdir gds
-gds write gds/${TOP_LEVEL_CELL}.gds
-file mkdir lef
-lef write lef/${TOP_LEVEL_CELL}.lef -hide -pinonly
+file mkdir ../gds
+gds write ../gds/${TOP_LEVEL_CELL}.gds
+file mkdir ../lef
+lef write ../lef/${TOP_LEVEL_CELL}.lef -hide -pinonly

@@ -1,0 +1,33 @@
+** sch_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/cdac_driver.sch
+**.subckt cdac_driver clks D7,D6,D5,D4,D3,D2,D1,D0 PA7,PA6,PA5,PA4 PB7,PB6,PB5,PB4,PB3,PB2,PB1 NA7,NA6,NA5,NA4
+*+ NB7,NB6,NB5,NB4,NB3,NB2,NB1
+*.ipin clks
+*.ipin D7,D6,D5,D4,D3,D2,D1,D0
+*.opin PA7,PA6,PA5,PA4
+*.opin PB7,PB6,PB5,PB4,PB3,PB2,PB1
+*.opin NA7,NA6,NA5,NA4
+*.opin NB7,NB6,NB5,NB4,NB3,NB2,NB1
+x34 clks D7 vss vss vdd vdd PB7 sky130_fd_sc_hd__or2_2
+x35 clks D6 vss vss vdd vdd PB6 sky130_fd_sc_hd__or2_2
+x36 clks D5 vss vss vdd vdd PB5 sky130_fd_sc_hd__or2_2
+x37 clks D4 vss vss vdd vdd PB4 sky130_fd_sc_hd__or2_2
+x38 clks D3 vss vss vdd vdd PB3 sky130_fd_sc_hd__or2_2
+x39 clks D2 vss vss vdd vdd PB2 sky130_fd_sc_hd__or2_2
+x40 clks D1 vss vss vdd vdd PB1 sky130_fd_sc_hd__or2_2
+x30 clks D7 vss vss vdd vdd PA7 sky130_fd_sc_hd__nand2_2
+x31 clks D6 vss vss vdd vdd PA6 sky130_fd_sc_hd__nand2_2
+x32 clks D5 vss vss vdd vdd PA5 sky130_fd_sc_hd__nand2_2
+x33 clks D4 vss vss vdd vdd PA4 sky130_fd_sc_hd__nand2_2
+x41 clks D7 vss vss vdd vdd NB7 sky130_fd_sc_hd__or2_2
+x42 clks D6 vss vss vdd vdd NB6 sky130_fd_sc_hd__or2_2
+x43 clks D5 vss vss vdd vdd NB5 sky130_fd_sc_hd__or2_2
+x44 clks D4 vss vss vdd vdd NB4 sky130_fd_sc_hd__or2_2
+x45 clks D3 vss vss vdd vdd NB3 sky130_fd_sc_hd__or2_2
+x46 clks D2 vss vss vdd vdd NB2 sky130_fd_sc_hd__or2_2
+x47 clks D1 vss vss vdd vdd NB1 sky130_fd_sc_hd__or2_2
+x48 clks D7 vss vss vdd vdd NA7 sky130_fd_sc_hd__nand2_2
+x49 clks D6 vss vss vdd vdd NA6 sky130_fd_sc_hd__nand2_2
+x50 clks D5 vss vss vdd vdd NA5 sky130_fd_sc_hd__nand2_2
+x51 clks D4 vss vss vdd vdd NA4 sky130_fd_sc_hd__nand2_2
+**.ends
+.end

@@ -1,0 +1,275 @@
+** sch_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc_tb/offset_sar-adc_tb.sch
+.lib /foss/pdks/sky130A/libs.tech/combined/sky130.lib.spice tt
+.include /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/spice/sky130_fd_sc_hd.spice
+
+**.subckt offset_sar-adc_tb
+xtop vin vip clks D7 D6 D5 D4 D3 D2 D1 D0 dvdd 0 avdd 0 EOC sar-adc
+Vclk clks 0 PULSE(0 1.8 10n 100p 100p 14.9n 100n)
+Vavdd avdd 0 1.8
+Vdvdd dvdd 0 1.8
+Voff net1 0 DC 0.9
+En vin net1 net2 0 -0.5
+Ep vip net1 net2 0 0.5
+Vd net2 0 DC 0.59434
+**** begin user architecture code
+
+
+
+.control
+ set appendwrite
+ foreach vv -0.020 -0.018 -0.016 -0.014 -0.012 -0.010 -0.008 -0.006 -0.004 -0.002
+ +        0.000 0.002 0.004 0.006 0.008 0.010 0.012 0.014 0.016 0.018 0.020
+   alter Vd = $vv
+   tran 20p 30n
+   meas tran d7v find v(D7) at=29n
+   echo 'SWEEP $vv $&d7v'
+   write offset_sar-adc_tb.raw v(D7) v(clks) v(xtop.clkc) v(xtop.ctopp) v(xtop.ctopn)
+ +      v(xtop.xcomparator.vtail)
+   destroy $curplot
+ end
+ unset appendwrite
+.endc
+
+
+
+
+.param nfft = 64
+.param mcyc = 29
+.param fs = 10e6
+.param fin  = 'mcyc/nfft*fs'     $ 4.53125 MHz
+.param amp  = 0.88               $ hampir full-scale single-ended
+.param off  = 0.9                $ V_CM
+.param namp = '-amp'             $ amplitudo sisi n (fase berlawanan)
+.options reltol=1e-4 vntol=1e-8 abstol=1e-14 chgtol=1e-16
+
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  sar-adc.sym # of pins=9
+** sym_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/sar-adc.sym
+** sch_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/sar-adc.sch
+.subckt sar-adc vinn vinp clks D7 D6 D5 D4 D3 D2 D1 D0 dvdd dvss avdd avss EOC
+*.ipin vinn
+*.ipin vinp
+*.ipin clks
+*.opin EOC
+*.iopin dvdd
+*.iopin dvss
+*.iopin avdd
+*.iopin avss
+*.opin D7,D6,D5,D4,D3,D2,D1,D0
+xcomparator avdd comp_vop clkc comp_von ctopp ctopn avss dvdd dvss comp_valid comparator
+xcdacn ctopn NB1 NB2 NA3 NA4 NB5 NB6 NB0 avss NB4 NA5 NA6 NB3 cdac
+xcdacp ctopp PB1 PB2 PA3 PA4 PB5 PB6 PB0 avss PB4 PA5 PA6 PB3 cdac
+xsarlogic dvdd dvss D7 D6 D5 D4 D3 D2 D1 D0 comp_valid clks comp_vop clkc D7b D6b D5b D4b D3b D2b D1b D0b clk1 clk2 clk3 clk4 clk5
++ clk6 clk7 clk8 EOC sarlogic
+xdacdrivern clk1 clk2 clk3 clk4 clk5 clk6 clk7 clk8 D7 D6 D5 D4 D3 D2 D1 D0 NA6 NA5 NA4 NA3 NB6 NB5 NB4 NB3 NB2 NB1 NB0 dvdd dvss
++ cdac_driver
+xdacdriverp clk1 clk2 clk3 clk4 clk5 clk6 clk7 clk8 D7b D6b D5b D4b D3b D2b D1b D0b PA6 PA5 PA4 PA3 PB6 PB5 PB4 PB3 PB2 PB1 PB0
++ dvdd dvss cdac_driver
+xbootstrapn clks vinn ctopn avdd avss bootstrap
+xbootstrapp clks vinp ctopp avdd avss bootstrap
+.ends
+
+
+* expanding   symbol:  comparator.sym # of pins=10
+** sym_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/comparator.sym
+** sch_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/comparator.sch
+.subckt comparator vdd vop clk von vip vin vss dvdd dvss rdy
+*.ipin clk
+*.ipin vip
+*.ipin vin
+*.iopin vdd
+*.iopin vss
+*.opin vop
+*.opin von
+*.iopin dvdd
+*.iopin dvss
+*.opin rdy
+XMinputp pcp vip vtail vss sky130_fd_pr__nfet_01v8 L=0.2 W=5 nf=1 ad=1.45 as=1.45 pd=10.58 ps=10.58 nrd=0.058 nrs=0.058 sa=0 sb=0
++ sd=0 mult=1
+XMinputn pcn vin vtail vss sky130_fd_pr__nfet_01v8 L=0.2 W=5 nf=1 ad=1.45 as=1.45 pd=10.58 ps=10.58 nrd=0.058 nrs=0.058 sa=0 sb=0
++ sd=0 mult=1
+XM1a comp_von comp_vop pcp vss sky130_fd_pr__nfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+XM1b comp_vop comp_von pcn vss sky130_fd_pr__nfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+XM2a comp_von comp_vop vdd vdd sky130_fd_pr__pfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+XM2b comp_vop comp_von vdd vdd sky130_fd_pr__pfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+XMtail vtail clk vss vss sky130_fd_pr__nfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+XMS3 comp_vop clk vdd vdd sky130_fd_pr__pfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+XMS2 comp_von clk vdd vdd sky130_fd_pr__pfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+XMS4 pcn clk vdd vdd sky130_fd_pr__pfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+XMS1 pcp clk vdd vdd sky130_fd_pr__pfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+xnandp comp_vop net2 dvss dvss dvdd dvdd net1 sky130_fd_sc_hd__nand2_1
+xnandn comp_von net1 dvss dvss dvdd dvdd net2 sky130_fd_sc_hd__nand2_1
+xbuffp net1 dvss dvss dvdd dvdd von sky130_fd_sc_hd__buf_4
+xbuffn net2 dvss dvss dvdd dvdd vop sky130_fd_sc_hd__buf_4
+xnandrdy comp_von comp_vop dvss dvss dvdd dvdd net3 sky130_fd_sc_hd__nand2_1
+xbuffrdy net3 dvss dvss dvdd dvdd rdy sky130_fd_sc_hd__buf_4
+XMS5 vtail clk vdd vdd sky130_fd_pr__pfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+.ends
+
+
+* expanding   symbol:  cdac.sym # of pins=13
+** sym_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/cdac.sym
+** sch_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/cdac.sch
+.subckt cdac ctop b1 b2 b3a b4a b5b b6b b0 vss b4b b5a b6a b3b
+*.iopin ctop
+*.iopin b1
+*.iopin b2
+*.iopin b3a
+*.iopin b4a
+*.iopin b5a
+*.iopin b6a
+*.iopin b0
+*.iopin b5b
+*.iopin b4b
+*.iopin b6b
+*.iopin b3b
+*.iopin vss
+XC1 ctop b0 sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=1
+XC2 ctop b1 sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=2 m=2
+XC3 ctop b2 sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=4 m=4
+XC4a ctop b3b sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=4 m=4
+XC5a ctop b4b sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=8 m=8
+XC6a ctop b5b sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=16 m=16
+XC7a ctop b6b sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=32 m=32
+XCdummy ctop vss sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=1
+XC7b ctop b6a sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=32 m=32
+XC6b ctop b5a sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=16 m=16
+XC5b ctop b4a sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=8 m=8
+XC4b ctop b3a sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=4 m=4
+.ends
+
+
+* expanding   symbol:  sarlogic.sym # of pins=10
+** sym_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/sarlogic.sym
+** sch_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/sarlogic.sch
+.subckt sarlogic dvdd dvss D7 D6 D5 D4 D3 D2 D1 D0 valid clks comp_op clkc D7b D6b D5b D4b D3b D2b D1b D0b clk1 clk2 clk3 clk4
++ clk5 clk6 clk7 clk8 EOC
+*.ipin valid
+*.ipin clks
+*.ipin comp_op
+*.opin D7,D6,D5,D4,D3,D2,D1,D0
+*.iopin dvdd
+*.iopin dvss
+*.opin clkc
+*.opin D7b,D6b,D5b,D4b,D3b,D2b,D1b,D0b
+*.opin clk1,clk2,clk3,clk4,clk5,clk6,clk7,clk8
+*.opin EOC
+x17 clks dvss dvss dvdd dvdd net1 sky130_fd_sc_hd__inv_2
+x20 valid dvss dvss dvdd dvdd delay1 sky130_fd_sc_hd__dlygate4sd3_1
+x21 delay1 dvss dvss dvdd dvdd delay2 sky130_fd_sc_hd__dlygate4sd3_1
+x22 delay2 dvss dvss dvdd dvdd delay3 sky130_fd_sc_hd__dlygate4sd3_1
+x23 delay3 dvss dvss dvdd dvdd delay4 sky130_fd_sc_hd__dlygate4sd3_1
+x24 delay4 dvss dvss dvdd dvdd delay5 sky130_fd_sc_hd__dlygate4sd3_1
+x25 delay5 dvss dvss dvdd dvdd delay6 sky130_fd_sc_hd__dlygate4sd3_1
+x26 delay6 dvss dvss dvdd dvdd delay7 sky130_fd_sc_hd__dlygate4sd3_1
+x27 delay7 dvss dvss dvdd dvdd delay8 sky130_fd_sc_hd__dlygate4sd3_1
+x28 delay8 dvss dvss dvdd dvdd delay9 sky130_fd_sc_hd__dlygate4sd3_1
+x29 delay9 dvss dvss dvdd dvdd valid_delayed sky130_fd_sc_hd__dlygate4sd3_1
+x31 D7 dvss dvss dvdd dvdd D7b sky130_fd_sc_hd__inv_2
+x32 D6 dvss dvss dvdd dvdd D6b sky130_fd_sc_hd__inv_2
+x33 D5 dvss dvss dvdd dvdd D5b sky130_fd_sc_hd__inv_2
+x34 D4 dvss dvss dvdd dvdd D4b sky130_fd_sc_hd__inv_2
+x35 D3 dvss dvss dvdd dvdd D3b sky130_fd_sc_hd__inv_2
+x36 D2 dvss dvss dvdd dvdd D2b sky130_fd_sc_hd__inv_2
+x37 D1 dvss dvss dvdd dvdd D1b sky130_fd_sc_hd__inv_2
+x38 D0 dvss dvss dvdd dvdd D0b sky130_fd_sc_hd__inv_2
+x1 valid dvdd net1 dvss dvss dvdd dvdd clk1 sky130_fd_sc_hd__dfrtp_2
+x2 valid clk1 net1 dvss dvss dvdd dvdd clk2 sky130_fd_sc_hd__dfrtp_2
+x3 valid clk2 net1 dvss dvss dvdd dvdd clk3 sky130_fd_sc_hd__dfrtp_2
+x4 valid clk3 net1 dvss dvss dvdd dvdd clk4 sky130_fd_sc_hd__dfrtp_2
+x5 valid clk4 net1 dvss dvss dvdd dvdd clk5 sky130_fd_sc_hd__dfrtp_2
+x6 valid clk5 net1 dvss dvss dvdd dvdd clk6 sky130_fd_sc_hd__dfrtp_2
+x7 valid clk6 net1 dvss dvss dvdd dvdd clk7 sky130_fd_sc_hd__dfrtp_2
+x8 valid clk7 net1 dvss dvss dvdd dvdd clk8 sky130_fd_sc_hd__dfrtp_2
+x30 clk8 dvss dvss dvdd dvdd net2 sky130_fd_sc_hd__dlygate4sd3_1
+x39 net2 dvss dvss dvdd dvdd EOC sky130_fd_sc_hd__dlygate4sd3_1
+x18 clks valid_delayed clk8 dvss dvss dvdd dvdd clkc sky130_fd_sc_hd__nor3_2
+x9 clk1 comp_op dvss dvss dvdd dvdd D7 sky130_fd_sc_hd__dfxtp_2
+x10 clk2 comp_op dvss dvss dvdd dvdd D6 sky130_fd_sc_hd__dfxtp_2
+x11 clk3 comp_op dvss dvss dvdd dvdd D5 sky130_fd_sc_hd__dfxtp_2
+x12 clk4 comp_op dvss dvss dvdd dvdd D4 sky130_fd_sc_hd__dfxtp_2
+x13 clk5 comp_op dvss dvss dvdd dvdd D3 sky130_fd_sc_hd__dfxtp_2
+x14 clk6 comp_op dvss dvss dvdd dvdd D2 sky130_fd_sc_hd__dfxtp_2
+x15 clk7 comp_op dvss dvss dvdd dvdd D1 sky130_fd_sc_hd__dfxtp_2
+x16 clk8 comp_op dvss dvss dvdd dvdd D0 sky130_fd_sc_hd__dfxtp_2
+.ends
+
+
+* expanding   symbol:  cdac_driver.sym # of pins=6
+** sym_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/cdac_driver.sym
+** sch_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/cdac_driver.sch
+.subckt cdac_driver clk1 clk2 clk3 clk4 clk5 clk6 clk7 clk8 D7 D6 D5 D4 D3 D2 D1 D0 A6 A5 A4 A3 B6 B5 B4 B3 B2 B1 B0 dvdd dvss
+*.ipin D7,D6,D5,D4,D3,D2,D1,D0
+*.opin A6,A5,A4,A3
+*.opin B6,B5,B4,B3,B2,B1,B0
+*.iopin dvdd
+*.iopin dvss
+*.ipin clk1,clk2,clk3,clk4,clk5,clk6,clk7,clk8
+x7 net6 D5 dvss dvss dvdd dvdd B4 sky130_fd_sc_hd__or2_2
+x8 net7 D4 dvss dvss dvdd dvdd B3 sky130_fd_sc_hd__or2_2
+x9 net1 D3 dvss dvss dvdd dvdd B2 sky130_fd_sc_hd__or2_2
+x10 net2 D2 dvss dvss dvdd dvdd B1 sky130_fd_sc_hd__or2_2
+x11 net3 D1 dvss dvss dvdd dvdd B0 sky130_fd_sc_hd__or2_2
+x3 clk3 D5 dvss dvss dvdd dvdd A4 sky130_fd_sc_hd__and2_2
+x4 clk4 D4 dvss dvss dvdd dvdd A3 sky130_fd_sc_hd__and2_2
+x12 clk1 dvss dvss dvdd dvdd net4 sky130_fd_sc_hd__inv_2
+x13 clk2 dvss dvss dvdd dvdd net5 sky130_fd_sc_hd__inv_2
+x14 clk3 dvss dvss dvdd dvdd net6 sky130_fd_sc_hd__inv_2
+x15 clk4 dvss dvss dvdd dvdd net7 sky130_fd_sc_hd__inv_2
+x16 clk5 dvss dvss dvdd dvdd net1 sky130_fd_sc_hd__inv_2
+x17 clk6 dvss dvss dvdd dvdd net2 sky130_fd_sc_hd__inv_2
+x18 clk7 dvss dvss dvdd dvdd net3 sky130_fd_sc_hd__inv_2
+x1 clk1 D7 dvss dvss dvdd dvdd A6 sky130_fd_sc_hd__and2_4
+x2 clk2 D6 dvss dvss dvdd dvdd A5 sky130_fd_sc_hd__and2_4
+x5 net4 D7 dvss dvss dvdd dvdd B6 sky130_fd_sc_hd__or2_4
+x6 net5 D6 dvss dvss dvdd dvdd B5 sky130_fd_sc_hd__or2_4
+.ends
+
+
+* expanding   symbol:  bootstrap.sym # of pins=5
+** sym_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/bootstrap.sym
+** sch_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/bootstrap.sch
+.subckt bootstrap clk vin vout vdd vss
+*.ipin clk
+*.ipin vin
+*.opin vout
+*.iopin vdd
+*.iopin vss
+XMswitch vin vgate vout vss sky130_fd_pr__nfet_01v8 L=0.15 W=2 nf=1 ad=0.58 as=0.58 pd=4.58 ps=4.58 nrd=0.145 nrs=0.145 sa=0 sb=0
++ sd=0 mult=1
+XMdisbot cbot vgate vin vss sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0
++ sd=0 mult=1
+XCboot ctop cbot sky130_fd_pr__cap_mim_m3_1 W=10 L=10 MF=1
+XMdistop vgate vgdistop ctop ctop sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0
++ sb=0 sd=0 mult=1
+XMchtop ctop vgate vdd ctop sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0
++ sd=0 mult=1
+XMdistopdrv vgdistop vgate cbot vss sky130_fd_pr__nfet_01v8 L=0.15 W=0.5 nf=1 ad=0.145 as=0.145 pd=1.58 ps=1.58 nrd=0.58 nrs=0.58
++ sa=0 sb=0 sd=0 mult=1
+XMchtopdrv2 vschtopdrv1 clkb vss vss sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29
++ sa=0 sb=0 sd=0 mult=1
+XMchbot cbot clkb vss vss sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
++ mult=1
+XM1 vgdistop clk vdd vdd sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
++ mult=1
+XM2 vgdistop clk cbot vss sky130_fd_pr__nfet_01v8 L=0.15 W=0.5 nf=1 ad=0.145 as=0.145 pd=1.58 ps=1.58 nrd=0.58 nrs=0.58 sa=0 sb=0
++ sd=0 mult=1
+XXMchtopdrv1 vgate vdd vschtopdrv1 vss sky130_fd_pr__nfet_g5v0d10v5 L=0.5 W=3 nf=1 ad=0.87 as=0.87 pd=6.58 ps=6.58
++ nrd=0.0966666666666667 nrs=0.0966666666666667 sa=0 sb=0 sd=0 mult=1
+x1 clk vss vss vdd vdd clkb sky130_fd_sc_hd__inv_4
+.ends
+
+.end

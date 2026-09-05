@@ -1,5 +1,5 @@
 ** sch_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/comparator.sch
-**.subckt comparator vdd vop clk von vip vin vss dvdd dvss rdy
+**.subckt comparator vdd vop clk von vip vin vss rdy
 *.ipin clk
 *.ipin vip
 *.ipin vin
@@ -7,13 +7,11 @@
 *.iopin vss
 *.opin vop
 *.opin von
-*.iopin dvdd
-*.iopin dvss
 *.opin rdy
-XMinputp pcp vip net1 vss sky130_fd_pr__nfet_01v8 L=0.2 W=5 nf=1 ad=1.45 as=1.45 pd=10.58 ps=10.58 nrd=0.058 nrs=0.058 sa=0 sb=0
-+ sd=0 mult=1
-XMinputn pcn vin net1 vss sky130_fd_pr__nfet_01v8 L=0.2 W=5 nf=1 ad=1.45 as=1.45 pd=10.58 ps=10.58 nrd=0.058 nrs=0.058 sa=0 sb=0
-+ sd=0 mult=1
+XMinputp pcp vip vtail vss sky130_fd_pr__nfet_01v8 L=0.2 W=2.5 nf=1 ad=0.725 as=0.725 pd=5.58 ps=5.58 nrd=0.116 nrs=0.116 sa=0
++ sb=0 sd=0 mult=2 m=2
+XMinputn pcn vin vtail vss sky130_fd_pr__nfet_01v8 L=0.2 W=2.5 nf=1 ad=0.725 as=0.725 pd=5.58 ps=5.58 nrd=0.116 nrs=0.116 sa=0
++ sb=0 sd=0 mult=2 m=2
 XM1a comp_von comp_vop pcp vss sky130_fd_pr__nfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
 + nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
 XM1b comp_vop comp_von pcn vss sky130_fd_pr__nfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
@@ -22,7 +20,7 @@ XM2a comp_von comp_vop vdd vdd sky130_fd_pr__pfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1
 + nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
 XM2b comp_vop comp_von vdd vdd sky130_fd_pr__pfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
 + nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
-XMtail net1 clk vss vss sky130_fd_pr__nfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
+XMtail vtail clk vss vss sky130_fd_pr__nfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
 + nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
 XMS3 comp_vop clk vdd vdd sky130_fd_pr__pfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
 + nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
@@ -32,11 +30,37 @@ XMS4 pcn clk vdd vdd sky130_fd_pr__pfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1
 + nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
 XMS1 pcp clk vdd vdd sky130_fd_pr__pfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
 + nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
-xnandp comp_vop net3 dvss dvss dvdd dvdd net2 sky130_fd_sc_hd__nand2_1
-xnandn comp_von net2 dvss dvss dvdd dvdd net3 sky130_fd_sc_hd__nand2_1
-xbuffp net2 dvss dvss dvdd dvdd von sky130_fd_sc_hd__buf_4
-xbuffn net3 dvss dvss dvdd dvdd vop sky130_fd_sc_hd__buf_4
-xnandrdy comp_von comp_vop dvss dvss dvdd dvdd net4 sky130_fd_sc_hd__nand2_1
-xbuffrdy net4 dvss dvss dvdd dvdd rdy sky130_fd_sc_hd__buf_4
+xnandp net2 comp_vop vss vss vdd vdd net1 sky130_fd_sc_hd__nand2_1
+xnandn net1 comp_von vss vss vdd vdd net2 sky130_fd_sc_hd__nand2_1
+xbuffp net1 vss vss vdd vdd von sky130_fd_sc_hd__buf_4
+xbuffn net2 vss vss vdd vdd vop sky130_fd_sc_hd__buf_4
+xnandrdy comp_von comp_vop vss vss vdd vdd net3 sky130_fd_sc_hd__nand2_1
+xbuffrdy net3 vss vss vdd vdd rdy sky130_fd_sc_hd__buf_4
+XMS5 vtail clk vdd vdd sky130_fd_pr__pfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+XMdummy vdd vdd vdd vdd sky130_fd_pr__pfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+XMdummy1 vtail vtail vtail vdd sky130_fd_pr__pfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+XMdummy2 vss vss vss vss sky130_fd_pr__nfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+XMdummy3 vtail vtail vtail vss sky130_fd_pr__nfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+XMdummy4 pcp pcp pcp vss sky130_fd_pr__nfet_01v8 L=0.2 W=2.5 nf=1 ad=0.725 as=0.725 pd=5.58 ps=5.58 nrd=0.116 nrs=0.116 sa=0 sb=0
++ sd=0 mult=2 m=2
+XMdummy5 pcn pcn pcn vss sky130_fd_pr__nfet_01v8 L=0.2 W=2.5 nf=1 ad=0.725 as=0.725 pd=5.58 ps=5.58 nrd=0.116 nrs=0.116 sa=0 sb=0
++ sd=0 mult=2 m=2
+XMdummy10 comp_vop comp_vop comp_vop vss sky130_fd_pr__nfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42
++ nrd=0.69047619047619 nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+XMdummy11 comp_von comp_von comp_von vss sky130_fd_pr__nfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42
++ nrd=0.69047619047619 nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+XMdummy6 pcp pcp pcp vdd sky130_fd_pr__pfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+XMdummy7 pcn pcn pcn vdd sky130_fd_pr__pfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 nrd=0.69047619047619
++ nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=1
+XMdummy8 comp_vop comp_vop comp_vop vdd sky130_fd_pr__pfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42
++ nrd=0.69047619047619 nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=2 m=2
+XMdummy9 comp_von comp_von comp_von vdd sky130_fd_pr__pfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42
++ nrd=0.69047619047619 nrs=0.69047619047619 sa=0 sb=0 sd=0 mult=2 m=2
 **.ends
 .end

@@ -1,0 +1,13 @@
+CTOT rc 117136
+W rc b0 0.00728443
+W rc b1 0.0146197
+W rc b2 0.0294029
+W rc b3a 0.0308209
+W rc b3b 0.0308483
+W rc b4a 0.0603094
+W rc b4b 0.0586888
+W rc b5a 0.118275
+W rc b5b 0.118275
+W rc b6a 0.236
+W rc b6b 0.236549
+W rc vssp 0.0589255

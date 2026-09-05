@@ -1,0 +1,17 @@
+** sch_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/cdac.sch
+.subckt cdac ctop b1 b2 b7a b4a b5b b6b b3 vss b4b b5a b6a b7b
+*.PININFO ctop:B b1:B b2:B b7a:B b4a:B b5a:B b6a:B b3:B b5b:B b4b:B b6b:B b7b:B vss:B
+XC6b ctop b6b sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=16 m=16
+XC1 ctop b1 sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=1
+XC2 ctop b2 sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=2 m=2
+XC3b ctop b3 sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=4 m=4
+XC4b ctop b4b sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=4 m=4
+XC5b ctop b5b sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=8 m=8
+XC7b ctop b7b sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=32 m=32
+XCdummy ctop vss sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=1
+XC7a ctop b7a sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=32 m=32
+XC5a ctop b5a sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=8 m=8
+XC4a ctop b4a sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=4 m=4
+XC6a ctop b6a sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=16 m=16
+XCdummy1 ctop ctop sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=68 m=68
+.ends

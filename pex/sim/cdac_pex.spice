@@ -1,0 +1,234 @@
+* PEX produced on Sat Aug 29 11:51:31 AM CEST 2026 using /foss/tools/sak/sak-pex.sh with m=2 and s=1
+* NGSPICE file created from cdac.ext - technology: sky130A
+
+.subckt cdac ctop b1 b2 b3a b4a b5b b6b b0 vss b4b b5a b6a b3b
+X0 ctop b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X1 ctop b5b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X2 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X3 ctop b2 sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X4 ctop b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X5 ctop b4a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X6 ctop b5b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X7 ctop b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X8 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X9 ctop b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X10 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X11 ctop b4b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X12 ctop b5a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X13 ctop b2 sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X14 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X15 ctop b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X16 b6b b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X17 ctop b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X18 ctop b5b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X19 ctop b3b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X20 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X21 ctop b4b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X22 ctop b5a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X23 ctop b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X24 ctop b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X25 ctop b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X26 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X27 ctop b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X28 ctop b5b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X29 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X30 ctop b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X31 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X32 ctop b2 sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X33 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X34 ctop b3a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X35 ctop b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X36 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X37 ctop b5b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X38 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X39 ctop b4a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X40 ctop b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X41 b5a b5a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X42 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X43 ctop b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X44 ctop b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X45 ctop b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X46 ctop b5b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X47 ctop b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X48 ctop b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X49 ctop b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X50 ctop b3b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X51 ctop b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X52 ctop b5a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X53 ctop b4a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X54 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X55 ctop b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X56 ctop b5a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X57 b5b b5b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X58 ctop b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X59 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X60 b6a b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X61 ctop b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X62 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X63 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X64 ctop b5b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X65 ctop b3a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X66 ctop b4a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X67 b6a b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X68 ctop b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X69 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X70 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X71 ctop b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X72 ctop b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X73 ctop b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X74 ctop b5a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X75 ctop b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X76 ctop b5b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X77 ctop b3a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X78 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X79 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X80 ctop b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X81 ctop b5a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X82 ctop b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X83 ctop b1 sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X84 ctop b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X85 ctop b5a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X86 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X87 b6a b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X88 ctop b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X89 ctop b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X90 ctop b5b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X91 ctop b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X92 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X93 ctop b4b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X94 ctop b1 sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X95 ctop b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X96 ctop b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X97 ctop b4b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X98 ctop b5a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X99 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X100 ctop b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X101 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X102 ctop b3b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X103 ctop b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X104 ctop b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X105 ctop b5a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X106 b5b b5b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X107 b3a b3a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X108 ctop b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X109 ctop b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X110 ctop b5a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X111 ctop b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X112 ctop b5a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X113 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X114 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X115 ctop b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X116 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X117 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X118 ctop b5b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X119 ctop b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X120 ctop b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X121 ctop b3a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X122 ctop b4a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X123 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X124 ctop b4a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X125 ctop b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X126 ctop b5b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X127 ctop b3b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X128 ctop b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X129 ctop b4a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X130 ctop b5a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X131 ctop b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X132 ctop b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X133 ctop b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X134 ctop b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X135 ctop b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X136 ctop b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X137 ctop b5a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X138 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X139 ctop b2 sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X140 ctop b4a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X141 ctop b5a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X142 ctop b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X143 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X144 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X145 ctop b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X146 ctop b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X147 ctop b5b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X148 ctop b4b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X149 ctop b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X150 ctop b5b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X151 ctop b0 sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X152 ctop b4b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X153 ctop b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X154 ctop b5b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X155 b6b b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X156 ctop b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X157 ctop b4b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X158 ctop b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X159 ctop b5a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X160 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X161 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X162 ctop b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X163 b6a b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X164 ctop b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X165 b6b b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X166 b5a b5a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X167 ctop vss sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X168 ctop b5b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X169 ctop b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X170 ctop b4b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X171 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X172 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X173 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X174 ctop ctop sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X175 ctop b5a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X176 b6b b6b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X177 ctop b6a sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X178 ctop b5b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X179 b3b b3b sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+C0 b4a vss 0.05197f
+C1 b1 b2 1.86513f
+C2 b5b b4b 1.46995f
+C3 ctop b2 2.55983f
+C4 b4a b3a 0.23172f
+C5 b4b b3b 0.46573f
+C6 b0 b3a 0.11585f
+C7 b6a b6b 6.54662f
+C8 b1 b3b 0.72139f
+C9 b0 b4a 0.05392f
+C10 b5b ctop 11.1525f
+C11 b6a ctop 22.6353f
+C12 ctop b3b 3.85672f
+C13 b6b b5a 2.8188f
+C14 b3a b4b 0.09625f
+C15 ctop vss 0.93902f
+C16 ctop b5a 11.0484f
+C17 b4a b4b 7.35809f
+C18 b1 b3a 0.52709f
+C19 ctop b3a 3.64251f
+C20 b2 b3b 1.04935f
+C21 b2 vss 0.11614f
+C22 b4a ctop 6.52177f
+C23 b0 ctop 0.60708f
+C24 b3a b2 2.74179f
+C25 vss b3b 0.47085f
+C26 b1 b4b 0.05347f
+C27 b5b b5a 2.67167f
+C28 ctop b4b 5.33264f
+C29 b6a b5a 0.64391f
+C30 b4a b2 0.63744f
+C31 b0 b2 1.31971f
+C32 ctop b6b 22.0967f
+C33 b3a b3b 5.13876f
+C34 b3a vss 0.32062f
+C35 b1 ctop 1.31368f
+C36 b4a b5b 0.54171f
+C37 b4a b3b 0.47947f
+C38 b2 b4b 0.07847f
+C39 b0 b3b 1.16561f
+C40 vss VSUBS 1.10092f
+C41 b0 VSUBS 0.53804f
+C42 b1 VSUBS 0.84543f
+C43 b2 VSUBS 2.12987f
+C44 b4b VSUBS 4.26788f
+C45 b4a VSUBS 5.24986f
+* substrat magic diikat ke pin vss (di ADC pin ini = avss)
+Vsub VSUBS vss 0
+.ends
+

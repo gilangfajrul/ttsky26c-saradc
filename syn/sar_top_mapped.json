@@ -4,7 +4,7 @@
     "sar_top": {
       "attributes": {
         "top": "00000000000000000000000000000001",
-        "src": "src/sar_logic.v:42.1-74.10"
+        "src": "xschem/sar-adc/digital/sar_logic.v:42.1-74.10"
       },
       "ports": {
         "valid": {
@@ -489,7 +489,7 @@
           "parameters": {
           },
           "attributes": {
-            "src": "src/sar_logic.v:32.5-38.8"
+            "src": "xschem/sar-adc/digital/sar_logic.v:32.5-38.8"
           },
           "port_directions": {
             "CLK": "input",
@@ -510,7 +510,7 @@
           "parameters": {
           },
           "attributes": {
-            "src": "src/sar_logic.v:12.5-20.8"
+            "src": "xschem/sar-adc/digital/sar_logic.v:12.5-20.8"
           },
           "port_directions": {
             "CLK": "input",
@@ -531,7 +531,7 @@
           "parameters": {
           },
           "attributes": {
-            "src": "src/sar_logic.v:32.5-38.8"
+            "src": "xschem/sar-adc/digital/sar_logic.v:32.5-38.8"
           },
           "port_directions": {
             "CLK": "input",
@@ -552,7 +552,7 @@
           "parameters": {
           },
           "attributes": {
-            "src": "src/sar_logic.v:12.5-20.8"
+            "src": "xschem/sar-adc/digital/sar_logic.v:12.5-20.8"
           },
           "port_directions": {
             "CLK": "input",
@@ -573,7 +573,7 @@
           "parameters": {
           },
           "attributes": {
-            "src": "src/sar_logic.v:32.5-38.8"
+            "src": "xschem/sar-adc/digital/sar_logic.v:32.5-38.8"
           },
           "port_directions": {
             "CLK": "input",
@@ -594,7 +594,7 @@
           "parameters": {
           },
           "attributes": {
-            "src": "src/sar_logic.v:12.5-20.8"
+            "src": "xschem/sar-adc/digital/sar_logic.v:12.5-20.8"
           },
           "port_directions": {
             "CLK": "input",
@@ -615,7 +615,7 @@
           "parameters": {
           },
           "attributes": {
-            "src": "src/sar_logic.v:32.5-38.8"
+            "src": "xschem/sar-adc/digital/sar_logic.v:32.5-38.8"
           },
           "port_directions": {
             "CLK": "input",
@@ -636,7 +636,7 @@
           "parameters": {
           },
           "attributes": {
-            "src": "src/sar_logic.v:12.5-20.8"
+            "src": "xschem/sar-adc/digital/sar_logic.v:12.5-20.8"
           },
           "port_directions": {
             "CLK": "input",
@@ -657,7 +657,7 @@
           "parameters": {
           },
           "attributes": {
-            "src": "src/sar_logic.v:32.5-38.8"
+            "src": "xschem/sar-adc/digital/sar_logic.v:32.5-38.8"
           },
           "port_directions": {
             "CLK": "input",
@@ -678,7 +678,7 @@
           "parameters": {
           },
           "attributes": {
-            "src": "src/sar_logic.v:12.5-20.8"
+            "src": "xschem/sar-adc/digital/sar_logic.v:12.5-20.8"
           },
           "port_directions": {
             "CLK": "input",
@@ -699,7 +699,7 @@
           "parameters": {
           },
           "attributes": {
-            "src": "src/sar_logic.v:32.5-38.8"
+            "src": "xschem/sar-adc/digital/sar_logic.v:32.5-38.8"
           },
           "port_directions": {
             "CLK": "input",
@@ -720,7 +720,7 @@
           "parameters": {
           },
           "attributes": {
-            "src": "src/sar_logic.v:12.5-20.8"
+            "src": "xschem/sar-adc/digital/sar_logic.v:12.5-20.8"
           },
           "port_directions": {
             "CLK": "input",
@@ -741,7 +741,7 @@
           "parameters": {
           },
           "attributes": {
-            "src": "src/sar_logic.v:32.5-38.8"
+            "src": "xschem/sar-adc/digital/sar_logic.v:32.5-38.8"
           },
           "port_directions": {
             "CLK": "input",
@@ -762,7 +762,7 @@
           "parameters": {
           },
           "attributes": {
-            "src": "src/sar_logic.v:12.5-20.8"
+            "src": "xschem/sar-adc/digital/sar_logic.v:12.5-20.8"
           },
           "port_directions": {
             "CLK": "input",
@@ -783,7 +783,7 @@
           "parameters": {
           },
           "attributes": {
-            "src": "src/sar_logic.v:32.5-38.8"
+            "src": "xschem/sar-adc/digital/sar_logic.v:32.5-38.8"
           },
           "port_directions": {
             "CLK": "input",
@@ -804,7 +804,7 @@
           "parameters": {
           },
           "attributes": {
-            "src": "src/sar_logic.v:12.5-20.8"
+            "src": "xschem/sar-adc/digital/sar_logic.v:12.5-20.8"
           },
           "port_directions": {
             "CLK": "input",
@@ -942,7 +942,7 @@
           "bits": [ 37 ],
           "offset": 1,
           "attributes": {
-            "src": "src/sar_logic.v:50.16-50.20"
+            "src": "xschem/sar-adc/digital/sar_logic.v:50.16-50.20"
           }
         },
         "clkc[2]": {
@@ -950,7 +950,7 @@
           "bits": [ 38 ],
           "offset": 2,
           "attributes": {
-            "src": "src/sar_logic.v:50.16-50.20"
+            "src": "xschem/sar-adc/digital/sar_logic.v:50.16-50.20"
           }
         },
         "clkc[3]": {
@@ -958,7 +958,7 @@
           "bits": [ 39 ],
           "offset": 3,
           "attributes": {
-            "src": "src/sar_logic.v:50.16-50.20"
+            "src": "xschem/sar-adc/digital/sar_logic.v:50.16-50.20"
           }
         },
         "clkc[4]": {
@@ -966,7 +966,7 @@
           "bits": [ 40 ],
           "offset": 4,
           "attributes": {
-            "src": "src/sar_logic.v:50.16-50.20"
+            "src": "xschem/sar-adc/digital/sar_logic.v:50.16-50.20"
           }
         },
         "clkc[5]": {
@@ -974,7 +974,7 @@
           "bits": [ 41 ],
           "offset": 5,
           "attributes": {
-            "src": "src/sar_logic.v:50.16-50.20"
+            "src": "xschem/sar-adc/digital/sar_logic.v:50.16-50.20"
           }
         },
         "clkc[6]": {
@@ -982,7 +982,7 @@
           "bits": [ 42 ],
           "offset": 6,
           "attributes": {
-            "src": "src/sar_logic.v:50.16-50.20"
+            "src": "xschem/sar-adc/digital/sar_logic.v:50.16-50.20"
           }
         },
         "clkc[7]": {
@@ -990,7 +990,7 @@
           "bits": [ 43 ],
           "offset": 7,
           "attributes": {
-            "src": "src/sar_logic.v:50.16-50.20"
+            "src": "xschem/sar-adc/digital/sar_logic.v:50.16-50.20"
           }
         },
         "clkc[8]": {
@@ -998,28 +998,28 @@
           "bits": [ 44 ],
           "offset": 8,
           "attributes": {
-            "src": "src/sar_logic.v:50.16-50.20"
+            "src": "xschem/sar-adc/digital/sar_logic.v:50.16-50.20"
           }
         },
         "clks": {
           "hide_name": 0,
           "bits": [ 4 ],
           "attributes": {
-            "src": "src/sar_logic.v:45.16-45.20"
+            "src": "xschem/sar-adc/digital/sar_logic.v:45.16-45.20"
           }
         },
         "comp_data": {
           "hide_name": 0,
           "bits": [ 3 ],
           "attributes": {
-            "src": "src/sar_logic.v:44.16-44.25"
+            "src": "xschem/sar-adc/digital/sar_logic.v:44.16-44.25"
           }
         },
         "sar_outn[0]": {
           "hide_name": 0,
           "bits": [ 13 ],
           "attributes": {
-            "src": "src/sar_logic.v:47.23-47.31"
+            "src": "xschem/sar-adc/digital/sar_logic.v:47.23-47.31"
           }
         },
         "sar_outn[1]": {
@@ -1027,7 +1027,7 @@
           "bits": [ 14 ],
           "offset": 1,
           "attributes": {
-            "src": "src/sar_logic.v:47.23-47.31"
+            "src": "xschem/sar-adc/digital/sar_logic.v:47.23-47.31"
           }
         },
         "sar_outn[2]": {
@@ -1035,7 +1035,7 @@
           "bits": [ 15 ],
           "offset": 2,
           "attributes": {
-            "src": "src/sar_logic.v:47.23-47.31"
+            "src": "xschem/sar-adc/digital/sar_logic.v:47.23-47.31"
           }
         },
         "sar_outn[3]": {
@@ -1043,7 +1043,7 @@
           "bits": [ 16 ],
           "offset": 3,
           "attributes": {
-            "src": "src/sar_logic.v:47.23-47.31"
+            "src": "xschem/sar-adc/digital/sar_logic.v:47.23-47.31"
           }
         },
         "sar_outn[4]": {
@@ -1051,7 +1051,7 @@
           "bits": [ 17 ],
           "offset": 4,
           "attributes": {
-            "src": "src/sar_logic.v:47.23-47.31"
+            "src": "xschem/sar-adc/digital/sar_logic.v:47.23-47.31"
           }
         },
         "sar_outn[5]": {
@@ -1059,7 +1059,7 @@
           "bits": [ 18 ],
           "offset": 5,
           "attributes": {
-            "src": "src/sar_logic.v:47.23-47.31"
+            "src": "xschem/sar-adc/digital/sar_logic.v:47.23-47.31"
           }
         },
         "sar_outn[6]": {
@@ -1067,7 +1067,7 @@
           "bits": [ 19 ],
           "offset": 6,
           "attributes": {
-            "src": "src/sar_logic.v:47.23-47.31"
+            "src": "xschem/sar-adc/digital/sar_logic.v:47.23-47.31"
           }
         },
         "sar_outn[7]": {
@@ -1075,14 +1075,14 @@
           "bits": [ 20 ],
           "offset": 7,
           "attributes": {
-            "src": "src/sar_logic.v:47.23-47.31"
+            "src": "xschem/sar-adc/digital/sar_logic.v:47.23-47.31"
           }
         },
         "sar_outp[0]": {
           "hide_name": 0,
           "bits": [ 5 ],
           "attributes": {
-            "src": "src/sar_logic.v:46.23-46.31"
+            "src": "xschem/sar-adc/digital/sar_logic.v:46.23-46.31"
           }
         },
         "sar_outp[1]": {
@@ -1090,7 +1090,7 @@
           "bits": [ 6 ],
           "offset": 1,
           "attributes": {
-            "src": "src/sar_logic.v:46.23-46.31"
+            "src": "xschem/sar-adc/digital/sar_logic.v:46.23-46.31"
           }
         },
         "sar_outp[2]": {
@@ -1098,7 +1098,7 @@
           "bits": [ 7 ],
           "offset": 2,
           "attributes": {
-            "src": "src/sar_logic.v:46.23-46.31"
+            "src": "xschem/sar-adc/digital/sar_logic.v:46.23-46.31"
           }
         },
         "sar_outp[3]": {
@@ -1106,7 +1106,7 @@
           "bits": [ 8 ],
           "offset": 3,
           "attributes": {
-            "src": "src/sar_logic.v:46.23-46.31"
+            "src": "xschem/sar-adc/digital/sar_logic.v:46.23-46.31"
           }
         },
         "sar_outp[4]": {
@@ -1114,7 +1114,7 @@
           "bits": [ 9 ],
           "offset": 4,
           "attributes": {
-            "src": "src/sar_logic.v:46.23-46.31"
+            "src": "xschem/sar-adc/digital/sar_logic.v:46.23-46.31"
           }
         },
         "sar_outp[5]": {
@@ -1122,7 +1122,7 @@
           "bits": [ 10 ],
           "offset": 5,
           "attributes": {
-            "src": "src/sar_logic.v:46.23-46.31"
+            "src": "xschem/sar-adc/digital/sar_logic.v:46.23-46.31"
           }
         },
         "sar_outp[6]": {
@@ -1130,7 +1130,7 @@
           "bits": [ 11 ],
           "offset": 6,
           "attributes": {
-            "src": "src/sar_logic.v:46.23-46.31"
+            "src": "xschem/sar-adc/digital/sar_logic.v:46.23-46.31"
           }
         },
         "sar_outp[7]": {
@@ -1138,14 +1138,14 @@
           "bits": [ 12 ],
           "offset": 7,
           "attributes": {
-            "src": "src/sar_logic.v:46.23-46.31"
+            "src": "xschem/sar-adc/digital/sar_logic.v:46.23-46.31"
           }
         },
         "valid": {
           "hide_name": 0,
           "bits": [ 2 ],
           "attributes": {
-            "src": "src/sar_logic.v:43.16-43.21"
+            "src": "xschem/sar-adc/digital/sar_logic.v:43.16-43.21"
           }
         }
       }

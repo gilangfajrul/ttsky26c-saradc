@@ -1,0 +1,51 @@
+                               skematik PEX C-coupled  PEX full-RC
+C_total di ctop [pF]             1.1834       1.2886       1.3587
+  vs skematik [%]                 +0.00        +8.89       +14.82
+gain (sum W / ideal) [%]         +0.000       +0.013       -5.152
+LSB efektif [mV]                14.0625      14.0643      13.3380
+max |DNL| [LSB]                  0.0000       0.4569       0.4569
+max |INL| [LSB]                  0.0000       0.7630       0.7630
+drift CM ctop [mV]               -49.22       -47.70       -45.24
+
+bit         ideal    sch [%]    pex [%]     rc [%]
+D7       0.500000     +0.000     -0.344     -5.490
+D6       0.250000     +0.000     -0.228     -5.380
+D5       0.125000     +0.000     +0.382     -4.801
+D4       0.062500     +0.000     +4.043     -1.329
+D3       0.031250     +0.000     -0.788     -5.911
+D2       0.015625     +0.000     -1.340     -6.434
+D1       0.007812     +0.000     -1.682     -6.759
+
+Asal simpangan: kopling rute bit-line ke ctop (PEX C-coupled)
+bit     unit  MIM [fF] rute [fF]       +%    bobot%
+D7        64    591.68     50.38     8.51    -0.344
+D6        32    295.84     25.57     8.64    -0.228
+D5        16    147.92     13.76     9.31     0.382
+D4         8     73.96      9.83    13.29     4.043
+D3         4     36.98      2.97     8.03    -0.788
+D2         2     18.49      1.37     7.43    -1.340
+D1         1      9.25      0.65     7.06    -1.682
+(kolom +% dibagi pertumbuhan C_total 8.89% menghasilkan kolom bobot%)
+
+Perbandingan dua mode ekstraksi (kapasitansi yang sama-sama ada identik,
+yang berbeda hanya cap ke substrat -> full-RC tidak mengurangi shielding):
+pasangan                 C-coup [fF] full-RC [fF]
+ctop <-> substrat              0.00      70.16
+b6a <-> substrat              40.31      73.15
+b6b <-> substrat              15.91      72.85
+b5a <-> substrat               7.71      38.82
+b4a <-> substrat               5.26      32.39
+b3a <-> substrat               2.65      22.26
+b2 <-> substrat                2.09      16.97
+b1 <-> substrat                0.69       4.23
+b0 <-> substrat                0.49       4.55
+total ke substrat             89.68     425.29
+b6a <-> ctop                  24.82      24.82
+b6b <-> ctop                  25.56      25.56
+b6a <-> b6b                   12.29      12.29
+
+Settling langkah MSB (b6b 1.8 V -> 0, driver 150 ohm / 150 ps):
+                   v akhir [mV] t 0.5 LSB [ps] t 0.1 LSB [ps]
+skematik               -450.000          237.9          291.5
+PEX C-coupled          -448.973          267.1          333.6
+PEX full-RC            -425.789          305.0          388.8

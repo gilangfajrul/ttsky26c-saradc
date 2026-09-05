@@ -1,0 +1,26 @@
+CTOT sch 134494
+W sch b0 0.0078125
+W sch b1 0.015625
+W sch b2 0.03125
+W sch b3a 0.03125
+W sch b3b 0.03125
+W sch b4a 0.0625
+W sch b4b 0.0625
+W sch b5a 0.125
+W sch b5b 0.125
+W sch b6a 0.25
+W sch b6b 0.25
+W sch vssp 0.0078125
+CTOT pex 123514
+W pex b0 0.00768106
+W pex b1 0.0154157
+W pex b2 0.0310038
+W pex b3a 0.0324991
+W pex b3b 0.0325279
+W pex b4a 0.0635932
+W pex b4b 0.0618844
+W pex b5a 0.124715
+W pex b5b 0.124715
+W pex b6a 0.24885
+W pex b6b 0.249429
+W pex vssp 0.00768439

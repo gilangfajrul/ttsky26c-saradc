@@ -1,6 +1,7 @@
 module sar_behavioral (
     input wire valid,       
-    input wire comp_data,   
+    input wire comp_data_p,   
+    input wire comp_data_n,   
     input wire clks,        
     output wire [7:0] sar_outp,
     output wire [7:0] sar_outn
@@ -23,7 +24,7 @@ module sar_behavioral (
             
             for (i = 0; i < 8; i = i + 1) begin
                 if (shift_reg[i] == 1'b1) begin
-                    result_reg[i] <= comp_data;
+                    result_reg[i] <= comp_data_p;
                 end
             end
         end

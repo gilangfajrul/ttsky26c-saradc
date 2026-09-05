@@ -19,6 +19,7 @@ Usage:
 
 import argparse
 import json
+import os
 import re
 import sys
 
@@ -47,6 +48,44 @@ def sanitise(name):
     name = name.lstrip("\\")
     name = name.replace("[", "_").replace("]", "")
     return re.sub(r"[^A-Za-z0-9_]", "_", name)
+
+
+def expand_ports(module):
+    """[(spice terminal name, direction)] -- one entry per BIT, not per port.
+
+    A multi-bit port is one entry in module["ports"] but N terminals in SPICE.
+    Collapsing it to a single name produces a .subckt that still parses and
+    still simulates, with the bus bits quietly turned into internal floating
+    nets.  Expanding here keeps the terminal list in step with build_net_names().
+    """
+    dirmap = {"input": "in", "output": "out", "inout": "inout"}
+    out = []
+    for pname, port in module["ports"].items():
+        bits = port["bits"]
+        direction = dirmap[port["direction"]]
+        if len(bits) == 1:
+            out.append((sanitise(pname), direction))
+        else:
+            out += [(sanitise("%s[%d]" % (pname, i)), direction)
+                    for i in range(len(bits))]
+    return out
+
+
+def check_unique(kind, items):
+    """SPICE is case-insensitive, and sanitise() is many-to-one.
+
+    `foo.bar` and `foo$bar` both become `foo_bar`.  For instance names that is
+    a duplicate-device error; for NET names it silently shorts two nodes, which
+    is far worse.  Refuse to emit either.
+    """
+    seen = {}
+    for original, spice in items:
+        key = spice.lower()
+        if key in seen and seen[key] != original:
+            raise SystemExit(
+                "%s name collision: %r and %r both map to %r.\n"
+                "Rename in RTL, or extend sanitise()." % (kind, seen[key], original, spice))
+        seen[key] = original
 
 
 def build_net_names(module):
@@ -165,7 +204,10 @@ def main():
     }
 
     names = build_net_names(module)
-    ports = [sanitise(p) for p in module["ports"]] + [args.vpwr, args.vgnd]
+    sympins = expand_ports(module) + [(args.vpwr, "inout"), (args.vgnd, "inout")]
+    ports = [p for p, _ in sympins]
+    check_unique("terminal", [(p, p) for p in ports])
+    check_unique("instance", [(c, sanitise(c)) for c in module["cells"]])
 
     lines = [
         "* %s -- standard-cell netlist generated from %s" % (args.top, args.json),
@@ -202,6 +244,17 @@ def main():
             nodes.append(bit_to_node(conn[0], names, args.vpwr, args.vgnd))
         lines.append("X%s %s %s" % (sanitise(cname), " ".join(nodes), ctype))
 
+    # bit_to_node() invents names lazily, so injectivity can only be checked now
+    check_unique("net", [(str(bit), n) for bit, n in names.items()])
+
+    ties = sum(1 for cell in module["cells"].values()
+               for conn in cell["connections"].values()
+               for bit in conn if bit in ("0", "1"))
+    if ties:
+        print("WARNING: %d cell pin(s) tied straight to a supply rail.\n"
+              "         Run `hilomap` in yosys to use real tie cells instead."
+              % ties, file=sys.stderr)
+
     lines += [".ends %s" % args.top, ""]
     with open(args.output, "w") as fh:
         fh.write("\n".join(lines))
@@ -211,11 +264,6 @@ def main():
         print("  %4d x %s  (%s)" % (n, ctype, " ".join(pinmap[ctype])))
 
     if args.sym:
-        dirmap = {"input": "in", "output": "out", "inout": "inout"}
-        sympins = [(sanitise(p), dirmap[v["direction"]])
-                   for p, v in module["ports"].items()]
-        sympins += [(args.vpwr, "inout"), (args.vgnd, "inout")]
-        import os
         write_symbol(args.sym, args.top, os.path.basename(args.output), sympins)
         print("wrote %s: %d pins" % (args.sym, len(sympins)))
     return 0

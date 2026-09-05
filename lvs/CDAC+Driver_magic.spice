@@ -1,0 +1,16 @@
+** sch_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/CDAC+Driver.sch
+.subckt CDAC+Driver vdd clk1 clk2 clk3 clk4 clk5 clk6 clk7 D7 D6 D5 D4 D3 D2 D1 ctop vss
+*.PININFO D[7..1]:I vdd:B vss:B clk[1..7]:I ctop:B
+*  x1 -  cdac  IS MISSING !!!!
+*  x2 -  A_CDAC  IS MISSING !!!!
+*  x3 -  B_CDAC  IS MISSING !!!!
+*  x4 -  B_CDAC  IS MISSING !!!!
+*  x5 -  B_CDAC  IS MISSING !!!!
+*  x6 -  A_CDAC  IS MISSING !!!!
+*  x7 -  A_CDAC  IS MISSING !!!!
+*  x8 -  B_CDAC  IS MISSING !!!!
+*  x9 -  A_CDAC  IS MISSING !!!!
+*  x10 -  B_CDAC  IS MISSING !!!!
+*  x11 -  B_CDAC  IS MISSING !!!!
+*  x12 -  B_CDAC  IS MISSING !!!!
+.ends

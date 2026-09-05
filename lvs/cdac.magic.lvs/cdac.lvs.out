@@ -1,0 +1,48 @@
+
+Circuit 1 cell sky130_fd_pr__cap_mim_m3_1 and Circuit 2 cell sky130_fd_pr__cap_mim_m3_1 are black boxes.
+Warning: Equate pins:  cell sky130_fd_pr__cap_mim_m3_1 is a placeholder, treated as a black box.
+Warning: Equate pins:  cell sky130_fd_pr__cap_mim_m3_1 is a placeholder, treated as a black box.
+
+Subcircuit pins:
+Circuit 1: sky130_fd_pr__cap_mim_m3_1      |Circuit 2: sky130_fd_pr__cap_mim_m3_1      
+-------------------------------------------|-------------------------------------------
+1                                          |1                                          
+2                                          |2                                          
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sky130_fd_pr__cap_mim_m3_1 and sky130_fd_pr__cap_mim_m3_1 are equivalent.
+
+Class cdac (0):  Merged 183 parallel devices.
+Subcircuit summary:
+Circuit 1: cdac                            |Circuit 2: cdac                            
+-------------------------------------------|-------------------------------------------
+sky130_fd_pr__cap_mim_m3_1 (196->13)       |sky130_fd_pr__cap_mim_m3_1 (196->13)       
+Number of devices: 13                      |Number of devices: 13                      
+Number of nets: 13                         |Number of nets: 13                         
+---------------------------------------------------------------------------------------
+Resolving symmetries by property value.
+Resolving symmetries by pin name.
+Netlists match uniquely.
+
+Subcircuit pins:
+Circuit 1: cdac                            |Circuit 2: cdac                            
+-------------------------------------------|-------------------------------------------
+b2                                         |b2                                         
+b1                                         |b1                                         
+vss                                        |vss                                        
+b7b                                        |b7b                                        
+b7a                                        |b7a                                        
+b5b                                        |b5b                                        
+b5a                                        |b5a                                        
+b3                                         |b3                                         
+b4b                                        |b4b                                        
+b4a                                        |b4a                                        
+b6b                                        |b6b                                        
+b6a                                        |b6a                                        
+ctop                                       |ctop                                       
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes cdac and cdac are equivalent.
+
+Final result: Circuits match uniquely.
+.

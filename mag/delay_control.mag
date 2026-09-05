@@ -1,0 +1,112 @@
+magic
+tech sky130A
+magscale 1 2
+timestamp 1788618462
+<< nwell >>
+rect -774 563 2246 622
+rect -731 552 2203 563
+rect -38 -717 2246 -632
+<< pwell >>
+rect 1 -117 2207 40
+<< psubdiff >>
+rect 5 -79 29 -17
+rect 2179 -79 2203 -17
+<< nsubdiff >>
+rect -731 552 -707 586
+rect 2179 552 2203 586
+rect 4 -681 29 -647
+rect 2179 -681 2203 -647
+<< psubdiffcont >>
+rect 29 -79 2179 -17
+<< nsubdiffcont >>
+rect -707 552 2179 586
+rect 29 -681 2179 -647
+<< locali >>
+rect -731 552 -707 586
+rect 2179 552 2203 586
+rect -713 232 -693 252
+rect -36 215 34 258
+rect 698 215 768 258
+rect 1449 215 1496 258
+rect 2153 215 2161 252
+rect 2153 202 2191 215
+rect 13 -79 29 -17
+rect 2179 -79 2195 -17
+rect 701 -354 778 -311
+rect 1438 -354 1515 -311
+rect 33 -375 53 -355
+rect 4 -681 29 -647
+rect 2179 -681 2203 -647
+<< viali >>
+rect 2161 215 2195 256
+rect 2157 -351 2191 -311
+<< metal1 >>
+rect 1793 502 1799 584
+rect 1881 502 1887 584
+rect 2142 209 2148 262
+rect 2201 209 2207 262
+rect 2102 -103 2122 -83
+rect 2148 -304 2201 -298
+rect 2148 -363 2201 -357
+rect 1799 -601 1881 -595
+rect 1799 -689 1881 -683
+<< via1 >>
+rect 1799 502 1881 584
+rect 2148 256 2201 262
+rect 2148 215 2161 256
+rect 2161 215 2195 256
+rect 2195 215 2201 256
+rect 2148 209 2201 215
+rect 2148 -311 2201 -304
+rect 2148 -351 2157 -311
+rect 2157 -351 2191 -311
+rect 2191 -351 2201 -311
+rect 2148 -357 2201 -351
+rect 1799 -683 1881 -601
+<< metal2 >>
+rect 1799 584 1881 590
+rect 1799 -601 1881 502
+rect 2148 262 2201 268
+rect 2148 -304 2201 209
+rect 2142 -357 2148 -304
+rect 2201 -357 2207 -304
+rect 1793 -683 1799 -601
+rect 1881 -683 1887 -601
+use sky130_fd_sc_hd__clkdlybuf4s50_1  sky130_fd_sc_hd__clkdlybuf4s50_1_0 $PDKPATH/libs.ref/sky130_fd_sc_hd/mag
+timestamp 1785844050
+transform 1 0 0 0 1 0
+box -38 -48 774 592
+use sky130_fd_sc_hd__clkdlybuf4s50_1  sky130_fd_sc_hd__clkdlybuf4s50_1_1
+timestamp 1785844050
+transform 1 0 736 0 1 0
+box -38 -48 774 592
+use sky130_fd_sc_hd__clkdlybuf4s50_1  sky130_fd_sc_hd__clkdlybuf4s50_1_2
+timestamp 1785844050
+transform 1 0 1472 0 1 0
+box -38 -48 774 592
+use sky130_fd_sc_hd__clkdlybuf4s50_1  sky130_fd_sc_hd__clkdlybuf4s50_1_3
+timestamp 1785844050
+transform -1 0 736 0 -1 -96
+box -38 -48 774 592
+use sky130_fd_sc_hd__clkdlybuf4s50_1  sky130_fd_sc_hd__clkdlybuf4s50_1_4
+timestamp 1785844050
+transform -1 0 1472 0 -1 -96
+box -38 -48 774 592
+use sky130_fd_sc_hd__clkdlybuf4s50_1  sky130_fd_sc_hd__clkdlybuf4s50_1_5
+timestamp 1785844050
+transform -1 0 2208 0 -1 -96
+box -38 -48 774 592
+use sky130_fd_sc_hd__clkdlybuf4s50_1  sky130_fd_sc_hd__clkdlybuf4s50_1_6
+timestamp 1785844050
+transform 1 0 -736 0 1 0
+box -38 -48 774 592
+<< labels >>
+flabel metal2 1831 84 1851 104 0 FreeSans 160 0 0 0 vdd
+port 0 nsew
+flabel locali -713 232 -693 252 0 FreeSans 160 0 0 0 valid
+port 2 nsew
+flabel locali 33 -375 53 -355 0 FreeSans 160 0 0 0 valid_delayed
+port 3 nsew
+flabel metal1 2102 -103 2122 -83 0 FreeSans 160 0 0 0 vss
+port 1 nsew
+<< end >>

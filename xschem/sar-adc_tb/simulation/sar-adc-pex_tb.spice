@@ -1,0 +1,69 @@
+** sch_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc_tb/sar-adc-pex_tb.sch
+.lib /foss/pdks/sky130A/libs.tech/combined/sky130.lib.spice tt
+.include /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/spice/sky130_fd_sc_hd.spice
+
+**.subckt sar-adc-pex_tb
+Vclk clks 0 PULSE(0 1.8 10n 100p 100p 14.9n 70n)
+.save i(vclk)
+Vavdd vdd 0 1.8
+.save i(vavdd)
+Voff net1 0 DC 0.9
+.save i(voff)
+En vin net1 net2 0 -0.5
+Ep vip net1 net2 0 0.5
+Vd net2 0 PWL(0 0.6 50n 0.6 51n 1.588 150n 1.588 151n -1.588)
+.save i(vd)
+x1 clks rst_n ua[0] ua[1] ua[2] ua[3] ua[4] ua[5] ua[6] ua[7] ui_in[0] ui_in[1] ui_in[2] ui_in[3] ui_in[4] ui_in[5] ui_in[6]
++ ui_in[7] uio_in[0] uio_in[1] uio_in[2] uio_in[3] uio_in[4] uio_in[5] uio_in[6] uio_in[7] uio_oe[0] uio_oe[1] uio_oe[2] uio_oe[3] uio_oe[4]
++ uio_oe[5] uio_oe[6] uio_oe[7] uio_out[0] uio_out[1] uio_out[2] uio_out[3] uio_out[4] uio_out[5] uio_out[6] uio_out[7] D0 D1 D2 D3 D4 D5 D6
++ D7 vdd 0 tt_um_gilangfajrul_sar_adc_pex
+**** begin user architecture code
+
+
+
+.include /foss/designs/ttsky26c-saradc/pex/tt_um_gilangfajrul_sar_adc.pex.spice
+.control
+ remzerovec
+ save v(clks) v(EOC) v(vip) v(vin) v(xtop.d7) v(xtop.d6) v(xtop.d5) v(xtop.d4) v(xtop.d3) v(xtop.d2) v(xtop.d1) v(xtop.d0) v(xtop.ctopp) v(xtop.ctopn) v(xtop.clkc) v(xtop.comp_valid) v(xtop.comp_vop) v(xtop.comp_von) v(xtop.clk1) v(xtop.clk2) v(xtop.clk3) v(xtop.clk4) v(xtop.clk5) v(xtop.clk6) v(xtop.clk7) v(xtop.clk8) v(xtop.xcomparator.vtail)
+ + v(xtop.xcomparator.pcp) v(xtop.xcomparator.pcn)
+ + v(d7) v(d6) v(d5) v(d4) v(d3) v(d2) v(d1) v(d0)
+ tran 20p 350n
+ write sar-adc_tb.raw
+.endc
+
+
+
+
+.param nfft = 64
+.param mcyc = 29
+.param fs = 10e6
+.param fin  = 'mcyc/nfft*fs'     $ 4.53125 MHz
+.param amp  = 0.88               $ hampir full-scale single-ended
+.param off  = 0.9                $ V_CM
+.param namp = '-amp'             $ amplitudo sisi n (fase berlawanan)
+.options reltol=1e-4 vntol=1e-8 abstol=1e-14 chgtol=1e-16
+
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  tt_um_gilangfajrul_sar_adc_pex.sym # of pins=10
+** sym_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/tt_um_gilangfajrul_sar_adc_pex.sym
+** sch_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/tt_um_gilangfajrul_sar_adc_pex.sch
+.subckt tt_um_gilangfajrul_sar_adc_pex clk rst_n ua[0] ua[1] ua[2] ua[3] ua[4] ua[5] ua[6] ua[7] ui_in[0] ui_in[1] ui_in[2]
++ ui_in[3] ui_in[4] ui_in[5] ui_in[6] ui_in[7] uio_in[0] uio_in[1] uio_in[2] uio_in[3] uio_in[4] uio_in[5] uio_in[6] uio_in[7] uio_oe[0]
++ uio_oe[1] uio_oe[2] uio_oe[3] uio_oe[4] uio_oe[5] uio_oe[6] uio_oe[7] uio_out[0] uio_out[1] uio_out[2] uio_out[3] uio_out[4] uio_out[5]
++ uio_out[6] uio_out[7] uo_out[0] uo_out[1] uo_out[2] uo_out[3] uo_out[4] uo_out[5] uo_out[6] uo_out[7] VDPWR VGND
+*.ipin clk
+*.ipin rst_n
+*.iopin ua[0],ua[1],ua[2],ua[3],ua[4],ua[5],ua[6],ua[7]
+*.ipin ui_in[0],ui_in[1],ui_in[2],ui_in[3],ui_in[4],ui_in[5],ui_in[6],ui_in[7]
+*.iopin uio_in[0],uio_in[1],uio_in[2],uio_in[3],uio_in[4],uio_in[5],uio_in[6],uio_in[7]
+*.iopin uio_oe[0],uio_oe[1],uio_oe[2],uio_oe[3],uio_oe[4],uio_oe[5],uio_oe[6],uio_oe[7]
+*.iopin uio_out[0],uio_out[1],uio_out[2],uio_out[3],uio_out[4],uio_out[5],uio_out[6],uio_out[7]
+*.opin uo_out[0],uo_out[1],uo_out[2],uo_out[3],uo_out[4],uo_out[5],uo_out[6],uo_out[7]
+*.iopin VDPWR
+*.iopin VGND
+.ends
+
+.end

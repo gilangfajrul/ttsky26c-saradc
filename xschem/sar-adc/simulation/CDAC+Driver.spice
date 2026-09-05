@@ -1,0 +1,80 @@
+** sch_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/CDAC+Driver.sch
+**.subckt CDAC+Driver vdd clk1,clk2,clk3,clk4,clk5,clk6,clk7 D7,D6,D5,D4,D3,D2,D1 ctop vss
+*.ipin D7,D6,D5,D4,D3,D2,D1
+*.iopin vdd
+*.iopin vss
+*.ipin clk1,clk2,clk3,clk4,clk5,clk6,clk7
+*.iopin ctop
+x1 ctop net9 net10 net1 net8 net6 net4 net11 vss net7 net5 net3 net2 cdac
+x2 clk1 D7 net1 vdd vss A_CDAC
+x3 clk1 D7 net2 vdd vss B_CDAC
+x4 clk2 D6 net4 vdd vss B_CDAC
+x5 clk3 D5 net6 vdd vss B_CDAC
+x6 clk2 D6 net3 vdd vss A_CDAC
+x7 clk3 D5 net5 vdd vss A_CDAC
+x8 clk4 D4 net7 vdd vss B_CDAC
+x9 clk4 D4 net8 vdd vss A_CDAC
+x10 clk7 D1 net9 vdd vss B_CDAC
+x11 clk6 D2 net10 vdd vss B_CDAC
+x12 clk5 D3 net11 vdd vss B_CDAC
+**.ends
+
+* expanding   symbol:  cdac.sym # of pins=13
+** sym_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/cdac.sym
+** sch_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/cdac.sch
+.subckt cdac ctop b1 b2 b7a b4a b5b b6b b3 vss b4b b5a b6a b7b
+*.iopin ctop
+*.iopin b1
+*.iopin b2
+*.iopin b7a
+*.iopin b4a
+*.iopin b5a
+*.iopin b6a
+*.iopin b3
+*.iopin b5b
+*.iopin b4b
+*.iopin b6b
+*.iopin b7b
+*.iopin vss
+XC6b ctop b6b sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=16 m=16
+XC1 ctop b1 sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=1
+XC2 ctop b2 sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=2 m=2
+XC3b ctop b3 sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=4 m=4
+XC4b ctop b4b sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=4 m=4
+XC5b ctop b5b sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=8 m=8
+XC7b ctop b7b sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=32 m=32
+XCdummy ctop vss sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=1
+XC7a ctop b7a sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=32 m=32
+XC5a ctop b5a sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=8 m=8
+XC4a ctop b4a sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=4 m=4
+XC6a ctop b6a sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=16 m=16
+XCdummy1 ctop ctop sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=68 m=68
+.ends
+
+
+* expanding   symbol:  A_CDAC.sym # of pins=5
+** sym_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/A_CDAC.sym
+** sch_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/A_CDAC.sch
+.subckt A_CDAC clki data A_out vdd vss
+*.ipin data
+*.opin A_out
+*.iopin vdd
+*.iopin vss
+*.ipin clki
+x1 data clki vss vss vdd vdd A_out sky130_fd_sc_hd__and2b_4
+.ends
+
+
+* expanding   symbol:  B_CDAC.sym # of pins=5
+** sym_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/B_CDAC.sym
+** sch_path: /foss/designs/ttsky26c-saradc/xschem/sar-adc/B_CDAC.sch
+.subckt B_CDAC clki data B_out vdd vss
+*.ipin data
+*.opin B_out
+*.iopin vdd
+*.iopin vss
+*.ipin clki
+x1 clki data vss vss vdd vdd B_out sky130_fd_sc_hd__nand2_4
+.ends
+
+.end

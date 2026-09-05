@@ -1,0 +1,65 @@
+magic
+tech sky130A
+magscale 1 2
+timestamp 1788445394
+<< nwell >>
+rect -718 203 186 254
+rect -704 147 172 203
+rect 121 141 133 147
+<< psubdiff >>
+rect -640 -412 -616 -378
+rect 85 -412 109 -378
+<< nsubdiff >>
+rect -668 183 -608 217
+rect 76 183 136 217
+<< psubdiffcont >>
+rect -616 -412 85 -378
+<< nsubdiffcont >>
+rect -608 183 76 217
+<< locali >>
+rect -668 183 -608 217
+rect 76 183 136 217
+rect -273 -77 -235 -73
+rect 40 -115 128 -103
+rect -632 -412 -616 -378
+rect 85 -412 101 -378
+<< viali >>
+rect -273 -73 -235 -39
+rect -655 -153 -339 -104
+rect 8 -153 128 -115
+<< metal1 >>
+rect 121 141 133 160
+rect -285 -39 172 -29
+rect -285 -73 -273 -39
+rect -235 -73 172 -39
+rect -285 -79 172 -73
+rect -667 -104 -327 -98
+rect -667 -105 -655 -104
+rect -760 -153 -655 -105
+rect -339 -153 -327 -104
+rect -760 -154 -327 -153
+rect -667 -159 -327 -154
+rect -4 -115 140 -109
+rect -4 -153 8 -115
+rect 128 -153 140 -115
+rect -4 -159 140 -153
+rect 65 -187 131 -159
+rect -161 -203 131 -187
+rect -763 -253 131 -203
+rect 125 -379 137 -360
+use sky130_fd_sc_hd__nand2_4  sky130_fd_sc_hd__nand2_4_0 $PDKPATH/libs.ref/sky130_fd_sc_hd/mag
+timestamp 1785844050
+transform 1 0 -680 0 1 -368
+box -38 -48 866 592
+<< labels >>
+flabel metal1 125 -379 137 -360 0 FreeSans 160 0 0 0 vss
+port 0 nsew
+flabel metal1 115 -219 127 -200 0 FreeSans 160 0 0 0 clki
+port 1 nsew
+flabel metal1 112 -55 124 -36 0 FreeSans 160 0 0 0 B_out
+port 2 nsew
+flabel metal1 -730 -136 -718 -117 0 FreeSans 160 0 0 0 data
+port 3 nsew
+flabel metal1 121 141 133 160 0 FreeSans 160 0 0 0 vdd
+port 4 nsew
+<< end >>

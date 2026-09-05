@@ -1,0 +1,14 @@
+.subckt cdac ctop b1 b2 b3a b4a b5b b6b b0 vss b4b b5a b6a b3b
+XC1 ctop b0 sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=1
+XC2 ctop b1 sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=2 m=2
+XC3 ctop b2 sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=4 m=4
+XC4a ctop b3b sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=4 m=4
+XC5a ctop b4b sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=8 m=8
+XC6a ctop b5b sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=16 m=16
+XC7a ctop b6b sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=32 m=32
+XCdummy ctop vss sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=1
+XC7b ctop b6a sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=32 m=32
+XC6b ctop b5a sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=16 m=16
+XC5b ctop b4a sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=8 m=8
+XC4b ctop b3a sky130_fd_pr__cap_mim_m3_1 W=2 L=2 MF=4 m=4
+.ends
