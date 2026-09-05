@@ -476,7 +476,7 @@ MACRO tt_um_gilangfajrul_sar_adc
       LAYER met2 ;
         RECT 27.605 114.765 124.480 217.555 ;
       LAYER met3 ;
-        RECT 1.120 10.610 152.710 224.260 ;
+        RECT 1.120 10.610 152.710 224.040 ;
       LAYER met4 ;
         RECT 4.000 224.360 30.270 224.760 ;
         RECT 31.370 224.360 33.030 224.760 ;
