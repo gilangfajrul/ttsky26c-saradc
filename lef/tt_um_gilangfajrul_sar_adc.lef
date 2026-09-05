@@ -16,6 +16,14 @@ MACRO tt_um_gilangfajrul_sar_adc
         RECT 143.830 224.760 144.130 225.760 ;
     END
   END clk
+  PIN ena
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met4 ;
+        RECT 146.590 224.760 146.890 225.760 ;
+    END
+  END ena
   PIN rst_n
     DIRECTION INPUT ;
     USE SIGNAL ;
@@ -520,7 +528,8 @@ MACRO tt_um_gilangfajrul_sar_adc
         RECT 136.250 224.360 137.910 224.760 ;
         RECT 139.010 224.360 140.670 224.760 ;
         RECT 141.770 224.360 143.430 224.760 ;
-        RECT 144.530 224.360 152.710 224.760 ;
+        RECT 144.530 224.360 146.190 224.760 ;
+        RECT 147.290 224.360 152.710 224.760 ;
         RECT 4.000 221.160 152.710 224.360 ;
         RECT 6.400 4.600 152.710 221.160 ;
         RECT 4.000 1.400 152.710 4.600 ;
